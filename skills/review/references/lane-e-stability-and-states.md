@@ -1,6 +1,6 @@
 # Lane E — Stability & States
 
-The lane the seeded dev account hides. Every data-driven view has four states (loading, empty, error, full) and the person who built it only ever saw the last one. A new user sees the other three first. This lane also covers everything that makes the page move after the user has started reading it. Owning skills: `ui-engineering` (stability, stacking) and `ui-design` (what the states should say).
+The lane the seeded dev account hides. Every data-driven view has four states (loading, empty, error, full) and the person who built it only ever saw the last one. A new user sees the other three first. This lane also covers everything that makes the page move after the user has started reading it. Owning skills: `ui-build` (stability, stacking) and `ui-design` (what the states should say).
 
 For each view in the recon's data-driven inventory, find the four branches in the code. A branch that doesn't exist is the finding.
 

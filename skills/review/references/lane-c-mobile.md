@@ -1,6 +1,6 @@
 # Lane C — Mobile
 
-The lane where "works in Chrome" means nothing. Every item here is a real-hardware behavior. This is the ship-check subset; the full reasoning behind each fix, and the deeper cases (PWAs, sheets, gestures), live in `ui-interaction`.
+The lane where "works in Chrome" means nothing. Every item here is a real-hardware behavior. This is the ship-check subset; the full reasoning behind each fix, and the deeper cases (PWAs, sheets, gestures), live in `ui-build`.
 
 ## C1. Never disable zoom — BLOCKER
 

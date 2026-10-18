@@ -2,7 +2,7 @@
 
 The cross-dimensional rule catalog for reviews. Each section names the building skill that owns the topic — defer there for the full treatment. This file exists so a finding can cite an exact threshold without loading five skills.
 
-A finding is a place where the code violates one of these. Rank by the priority order in SKILL.md: broken interaction and accessibility failures first, polish last.
+A finding is a place where the code violates one of these. Rank by the priority order in [ui-diff-review.md](ui-diff-review.md): broken interaction and accessibility failures first, polish last.
 
 ## Interaction correctness
 
@@ -11,7 +11,7 @@ A finding is a place where the code violates one of these. Rank by the priority 
 - Nothing important lives behind hover alone. Hover is an enhancement; touch and keyboard users never see it.
 - Disabled controls look disabled and are actually unfocusable-or-explained, not just visually greyed while still firing.
 
-## Accessibility floor · see `ui-interaction`, `ui-design`
+## Accessibility floor · see `ui-build`, `ui-design`
 
 - Tap targets are ≥ 44×44px, or have an expanded hit area via padding or a pseudo-element.
 - Every icon-only button has an accessible name (`aria-label` or visually-hidden text).
@@ -21,7 +21,7 @@ A finding is a place where the code violates one of these. Rank by the priority 
 - Text contrast passes its threshold — 4.5:1 for body, 3:1 for large text (WCAG), or the equivalent APCA level. Check both themes.
 - Inputs are ≥ 16px font size so iOS Safari doesn't zoom on focus.
 
-## Layout stability · see `ui-engineering`
+## Layout stability · see `ui-build`
 
 - Dynamic content causes no layout shift. Reserve space for async data, images (width/height or aspect-ratio), and anything that appears after load.
 - Changing numbers use `font-variant-numeric: tabular-nums` so they don't jitter the layout.
@@ -67,14 +67,14 @@ A finding is a place where the code violates one of these. Rank by the priority 
 - Props are named for intent, and the common case is a one-liner.
 - The component is hard to misuse — no required props that are easy to forget, no footguns.
 
-## Performance · see `ui-engineering`
+## Performance · see `ui-build`
 
 - Lists that can grow large are virtualized.
 - Images are sized and lazy-loaded below the fold; nothing decodes a huge asset to show a thumbnail.
 - No render storms — animation runs off refs/motion values, not state updates per frame; no CSS variable on a shared parent driving many children.
 - Nothing expensive blocks first paint.
 
-## Final polish · see `ui-engineering`
+## Final polish · see `ui-build`
 
 - Custom `::selection` where the default clashes.
 - Custom scrollbars only inside small scoped elements, never the whole page.

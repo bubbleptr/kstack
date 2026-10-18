@@ -38,6 +38,6 @@ For layout or placement work, the sketch shows where it goes, what form it takes
 
 ## 4. After agreement
 
-- Record the decision as an ADR only if it qualifies (hard to reverse, surprising, real trade-off); the format lives in `domain-design`. When implementation forces a change to an accepted decision, add a superseding ADR in the same PR and flip the old one's status to `Superseded by ADR-NNNN`; never rewrite the old decision.
+- Record the decision as an ADR only if it qualifies (hard to reverse, surprising, real trade-off); the format lives in `backend`. When implementation forces a change to an accepted decision, add a superseding ADR in the same PR and flip the old one's status to `Superseded by ADR-NNNN`; never rewrite the old decision.
 - No spec file. The code and tests become the description of the feature; the sketch's job ends at agreement.
 - Work too large for one session splits into briefs per `handoff`, one per reviewable PR, stacked when they depend on each other.

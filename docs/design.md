@@ -60,6 +60,26 @@ kstack 的内容会周期性地从 nmem 提炼：某条经验在 nmem 里反复�
 
 ## 4. 骨架（候选，约 16 个）
 
+> **当前形态（2026-10-18 合并后，共 14 个）**：
+>
+> | 组 | skill |
+> |---|---|
+> | 流程 | `design`、`diagnose`、`review`、`handoff` |
+> | 后端 | `backend` |
+> | 前端 | `ui-design`、`ui-motion`、`ui-build`、`component-api`、`prototype` |
+> | 交付 | `ship` |
+> | 跨领域 | `unslop`、`kstack`、`write-skill` |
+>
+> 合并关系：
+> - `backend` = domain-design + api-contract + data-and-migrations；
+> - `ui-build` = ui-engineering + ui-interaction；
+> - `ui-review` 并入 `review`，作为 UI 审查和发布前检查的 references；
+> - `ship` = ship + release。
+>
+> `prototype`、`write-skill`、`kstack` 只能手动调用。
+>
+> 下面各组是合并前的原始规划，保留作为决策记录。
+
 分四个桶加一个路由。括号里是主要素材来源。
 
 ### 路由
@@ -92,7 +112,7 @@ grill 消耗注意力，根因在顺序：它先抛出一棵开放的决策树�
 - **`design` 的产物是一份短 ADR**，在**做出决策时**写，不在实现之前写。ADR 只有四节：Problem / Decision / Alternatives（每个一行）/ Consequences。
 - **ADR 带日期，并标注 Accepted 或 Superseded by ADR-NNNN 状态。** 它记录的是历史，不是现状，所以过时是被允许的；它回答的是「当时为什么这么定」，而不是「现在是什么样」。agent 只把 Accepted 状态的 ADR 当作约束。
 - **任务拆分不入库。** 大任务拆成子代理 brief（沿用 harness/templates/task-brief.md）和 stacked PR。brief 用完即弃，留在 PR 描述里就够了。
-- ADR 和 GLOSSARY 的维护规则放在 `domain-design` 里，`design` 只负责引用。
+- ADR 和 GLOSSARY 的维护规则放在 `backend` 里，`design` 只负责引用。
 
 ### 前端（Frontend）
 
@@ -209,6 +229,17 @@ kstack/
 - 这些都不是模型的默认行为，所以没做 A/B。
 - PR 正文模板沿用 matt 的 `pr`，该 skill 的来源是 HumanLayer 的 show-me。
 - nmem 里有一条较早的「不主动开 PR」，和现行 CLAUDE.md 的「交付 ready PR」冲突。以 CLAUDE.md 为准，不收录。
+
+**2026-10-18，合并精简：19 个 → 14 个**
+
+- **起因**：你觉得 19 个太多。实测下来，常驻的 description 约 10.8k 字符，其中前端 7 个就占了一半以上；更实际的问题是触发边界模糊，比如 ui-engineering、ui-interaction、ui-motion 三者分不清。
+- **怎么合并的**：
+  - 后端 3 个合成 `backend`，正文 135 行，「修改契约」一节移进 references；
+  - `ui-engineering` 和 `ui-interaction` 合成 `ui-build`，正文 120 行；
+  - `ui-review` 的两种模式和 12 个参考文件移进 `review/references/`；
+  - `release` 并入 `ship`。
+- **调用方式**：`prototype` 和 `write-skill` 改成只能手动调用，不再常驻。
+- **内容保真**：合并只去掉重复内容。backend 的 22 个事故标记逐个核对过；UI 的数值和检查项编号保持不变。
 
 ## 7. 待确认
 

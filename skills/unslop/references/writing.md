@@ -96,7 +96,7 @@ Not in headings, not as bullet markers. An emoji that carries meaning in chat ca
 
 ### Straight quotes in source prose
 
-Markdown, commit messages, code comments, and docs source get straight quotes — curly quotes appearing in raw text are a generation artifact. Rendered UI copy is the opposite territory: there, real typographic characters are correct (see `ui-engineering`). The tell is curly quotes where no human would have typed them.
+Markdown, commit messages, code comments, and docs source get straight quotes — curly quotes appearing in raw text are a generation artifact. Rendered UI copy is the opposite territory: there, real typographic characters are correct (see `ui-build`). The tell is curly quotes where no human would have typed them.
 
 ## Claims
 

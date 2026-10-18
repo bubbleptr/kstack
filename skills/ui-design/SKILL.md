@@ -79,7 +79,7 @@ When colors change, report them by file: every touched declaration, old value be
 - **Themes flip variables,** not per-component `dark:` classes. One depth cue per surface.
 - Hover transitions only `box-shadow`, never `all`.
 
-Read [references/surfaces.md](references/surfaces.md) when writing radius, shadow, border, gradient, image-outline, or dark-theme CSS; it holds the exact tokens, symptoms, and checklist. Non-surface finishing (font rendering, layout shift, z-index, scrollbars): `ui-engineering`.
+Read [references/surfaces.md](references/surfaces.md) when writing radius, shadow, border, gradient, image-outline, or dark-theme CSS; it holds the exact tokens, symptoms, and checklist. Non-surface finishing (font rendering, layout shift, z-index, scrollbars): `ui-build`.
 
 ## 6. Icons and illustrations
 
@@ -100,4 +100,4 @@ Read [references/marketing-pages.md](references/marketing-pages.md) when impleme
 
 ## Reviewing UI
 
-Present findings as one markdown table, `| Before | After | Why |`, one row per issue with a one-line reason. Sweep against the real roles on screen (body, headings, labels, live numbers, inputs), not just the stylesheet. Stay silent on rules already followed; fix with the smallest diff, and don't restructure markup unless an animated underline or expandable truncation needs an extra element. Review with fresh eyes when possible: flaws invisible at the end of a build session are obvious the next day. Full review workflow: `ui-review`.
+Present findings as one markdown table, `| Before | After | Why |`, one row per issue with a one-line reason. Sweep against the real roles on screen (body, headings, labels, live numbers, inputs), not just the stylesheet. Stay silent on rules already followed; fix with the smallest diff, and don't restructure markup unless an animated underline or expandable truncation needs an extra element. Review with fresh eyes when possible: flaws invisible at the end of a build session are obvious the next day. Full review workflow: `review`.

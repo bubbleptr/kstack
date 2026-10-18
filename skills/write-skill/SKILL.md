@@ -1,6 +1,7 @@
 ---
 name: write-skill
-description: Create, condense, or revise a skill in the kstack repo (~/code/kstack) — deciding whether it should exist at all, what goes in the body versus references, how to write the description, and how to prove it changes behavior with an A/B run. Use when adding a kstack skill, folding an upstream skill into kstack, pruning or rewriting an existing one, or when a skill seems to have no effect.
+description: Create, condense, or revise a kstack skill — whether it should exist, its shape and description, A/B proof, and landing it.
+disable-model-invocation: true
 ---
 
 # Write a kstack skill

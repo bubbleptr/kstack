@@ -1,6 +1,6 @@
 # Lane B — Performance
 
-The lane where the dev machine lies. Every check here reproduces on a mid-range phone and hides on a fast laptop. Fast UI is mostly work you *don't* do, so most fixes here delete or defer something. For anything deeper, the owning skill is `ui-engineering`.
+The lane where the dev machine lies. Every check here reproduces on a mid-range phone and hides on a fast laptop. Fast UI is mostly work you *don't* do, so most fixes here delete or defer something. For anything deeper, the owning skill is `ui-build`.
 
 Layout shift from content that arrives late is split between this lane (assets: images, fonts, video) and lane E (data: skeletons, empty states, persisted UI state).
 
@@ -149,7 +149,7 @@ Rendering 2,000 rows renders 2,000 rows. Only what's visible should exist in the
 
 **Hunt for:** `.map()` over data with no cap, no pagination, and no virtualizer, in tables, feeds, logs, comboboxes, and pickers.
 
-Use the project's existing virtualizer (`@tanstack/react-virtual`, Virtuoso). Adding a virtualizer to a table is bigger than a one-line fix: apply it when the list is simple, otherwise put it on the human list with `ui-engineering` named. Never churn an existing dependency without being asked.
+Use the project's existing virtualizer (`@tanstack/react-virtual`, Virtuoso). Adding a virtualizer to a table is bigger than a one-line fix: apply it when the list is simple, otherwise put it on the human list with `ui-build` named. Never churn an existing dependency without being asked.
 
 ## B13. Off-screen work pauses — POLISH
 

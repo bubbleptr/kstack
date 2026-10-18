@@ -10,7 +10,7 @@
 | Transition between two states looks disconnected | Add a subtle `blur(2px)` during the transition to bridge the states (well under 20px) |
 | Hover animations firing on phones | Wrap in `@media (hover: hover) and (pointer: fine)` |
 | Everything transitions when the theme toggles | Disable transitions during the swap ([motion-performance.md](motion-performance.md)) |
-| Small icon buttons hard to hit | Expand the hit area, don't scale the visual (recipe in `ui-engineering`) |
+| Small icon buttons hard to hit | Expand the hit area, don't scale the visual (recipe in `ui-build`) |
 | Sequential tooltips feel sluggish | Delay + animate only the first; siblings open instantly (`data-instant`) |
 | Spinner feels slow though load time is fixed | Spin it faster; perceived speed is real UX |
 

@@ -1,11 +1,11 @@
 ---
 name: ship
-description: Get a change from a working branch to merged on main — commit messages, the PR body, stacked PRs with gh stack, merging, and post-merge cleanup. Use when committing, opening or updating a PR, writing a PR description, splitting work into a stack, merging a PR or a stack, or cleaning up branches after a merge.
+description: Get a change from a working branch to users — commits, PR body, stacked PRs with gh stack, merging and cleanup, then release scope, versions, tags and notes, app/npm artifacts, server deploys (blue-green, atomic release dirs, proxy config), and verifying what is live. Use when committing, opening or describing a PR, splitting work into a stack, merging, cleaning up branches, cutting a release, tagging, publishing a package or app build, deploying, switching traffic, rolling back, or checking what is running in production.
 ---
 
 # Ship
 
-CLAUDE.md already sets the route: feature branch, ready PR, one dureview pass, merge only when told, clean up afterwards. This skill holds what goes into each step and the traps along the way.
+CLAUDE.md already sets the route to main: feature branch, ready PR, one dureview pass, merge only when told, clean up afterwards. This skill holds what goes into each step and the traps along the way, then everything from main to users.
 
 ## Commits
 
@@ -39,3 +39,37 @@ Write in the project's documentation language. Use [references/pr-body.md](refer
 
 - Squash-merged branches always look "not fully merged" to git. Before force-deleting, check with `git cherry -v main <branch>` (lines starting with `-` are already on main) or a diff against main.
 - Merging is not deploying. When the deploy is triggered by a push to main (Workers Builds, Zeabur, Pages), confirm that a build actually started for the merge commit; at least one platform has missed a squash-merge push.
+
+## Release 1: Scope the release by the deployable unit
+
+- Ship only the units the change touches. A docs-only or frontend-only change gets no backend version bump, tag, or GitHub Release. What is live is each unit's current release (the server's release SHA, the page actually served), not the last merge.
+- Before deploying, check what is actually running and how it got there: the image tag or SHA, and whether anyone deployed outside the normal path. Record the rollback target (previous image, compose or config backup) before changing anything.
+- Deploy only when told. Once told, run the whole chain without stopping for further confirmation, and report each step's result. Scripts with interactive prompts get their non-interactive flag (e.g. an `ASSUME_YES` env var) or they abort silently mid-chain.
+
+## Release 2: Versions, tags, notes
+
+- The version bump, changelog, and release notes go in a `chore/release-x.y.z` PR. After it merges, tag **main** and push the tag; the tag-triggered workflow builds, signs, and publishes.
+- Pre-1.0: features and breaking changes bump the minor; fixes bump the patch.
+- Update every place the version lives in the same PR: manifests, the workspace version in `bun.lock` (then verify with `bun install --frozen-lockfile`), and version examples in docs and `AGENTS.md`.
+- Release notes (`docs/releases/vX.Y.Z.md` where the project uses it) list only user-visible changes, never what did not change.
+- A tag that produced a published release never moves. Delete and re-tag only if nothing was published. A stuck CI run on a tag is re-run on the same tag (manual dispatch), not fixed by a new commit.
+- Tests that only run on tags (packaged end-to-end) are run manually before tagging whenever they changed.
+
+## Release 3: Artifacts
+
+- Verify the artifact as a user downloads it, not the local build: version, embedded permission descriptions (`Info.plist`), signature and notarization (`codesign`, `spctl`, `stapler`), first launch. A build with an entitlement but no permission description crashed on launch.
+- A packaging step that degrades fails the release; it does not warn. Nothing in CI depends on a GUI (Finder scripting).
+- Apple notarization failing with 403 "agreement missing" means the account holder must accept the latest agreement; it is not a code problem.
+- npm: a brand-new package can resolve to a placeholder version for a minute or two; verify with `--prefer-online`. Publishing several packages together must be safe to re-run after a partial failure.
+
+## Release 4: Servers
+
+- **Order**: proxy config, then frontend, then backend, unless the change says otherwise. Proxy config: diff the live file against the repo first (hand hot-fixes), back it up, validate as the service user, then reload.
+- **Blue-green**: deploy green, move real traffic to it and verify under that traffic, upgrade blue, then restore the normal split. A node with no traffic proves nothing. A health endpoint that the proxy does not route is not an outage signal.
+- **Atomic frontend releases**: build into `releases/<sha>`, carry the previous release's hashed assets forward so open tabs keep loading, then switch a `current` symlink in one rename. Release directories live where the server runtime resolves its modules. Pruning old releases removes them as rollback targets; know how many are kept.
+- **Building on a production host** caps CPU and memory and has swap. An out-of-memory build is a production incident.
+- Frontend and backend that deploy separately are released and verified separately; a backend deploy says nothing about the page.
+
+## Release 5: After deploy
+
+Verify with the live system: the served version or SHA, a real request through the changed path, the error rate for a few minutes. UI releases get the pre-launch UI sweep from `review` before tagging, not after.
