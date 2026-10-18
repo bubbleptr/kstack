@@ -5,6 +5,10 @@ description: Review a branch, PR, or work-in-progress diff along two axes — re
 
 # Review
 
+## 0. Whole-app sweep or a change?
+
+A pre-launch whole-app sweep ("prep for prod", "is this ready to ship", before a release or demo) reviews the app as it is, not a diff: skip sections 1 and 2, including the non-empty-diff check and the exclusion of problems already on the base branch, and go straight to the sweep mode under "UI pass" below. Everything else is a review of a change.
+
 ## 1. Pin what is being reviewed
 
 - **Branch or PR**: diff against an explicit base, `git diff <base>...HEAD` (three dots, merge-base). Run from the main workspace without a base, a review comes back empty and looks like a pass.

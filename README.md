@@ -55,6 +55,7 @@ Kieran 的个人 skill 集，面向前后端全栈开发，取代了此前安装
 把每个 skill 软链接到两个目录：`~/.agents/skills` 供 Codex、Pi、Grok 读取，`~/.claude/skills` 供 Claude Code 读取。
 
 ```bash
+mkdir -p ~/.agents/skills ~/.claude/skills
 for d in skills/*/; do n=$(basename "$d"); for t in ~/.agents/skills ~/.claude/skills; do ln -sfn "$PWD/$d" "$t/$n"; done; done
 ```
 
