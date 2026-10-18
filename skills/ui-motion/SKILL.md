@@ -59,7 +59,7 @@ Use a **spring** instead of a curve when motion is gesture-driven or interruptib
 ## 4. Rules applied every time
 
 1. **Animate only `transform` and `opacity`** (plus `filter`/`clip-path`, which also composite). They skip layout and paint. Never animate `width`, `height`, `margin`, `padding`, `top/left`, or box-shadow spread: use `scale`/`translate` and cross-fades. Keep `filter: blur()` under 20px (expensive, worst on Safari) and off frequently-animating elements.
-2. **Name the transitioned properties; never `transition: all`.** Tailwind's bare `transition` class is `transition-property: all` in disguise; dark-mode toggles and layout changes then animate by accident.
+2. **Name the transitioned properties; never `transition: all`.** Tailwind's bare `transition` class is not `all`, but it covers a broad default list (colors, opacity, shadow, transform, filters), so theme switches animate colors and shadows by accident. Use the narrow utilities (`transition-transform`, `transition-opacity`) or an explicit list.
 3. **Interactive state gets transitions; one-shots get keyframes.** Transitions retarget from the live position when the user reverses mid-animation; keyframes restart and look broken. `@keyframes` only for enter sequences and loaders that always run to completion.
 4. **Never enter from `scale(0)`.** Start at `scale(0.95)` (`0.97` for small elements) with `opacity: 0`; elements always keep a visible shape.
 5. **Scale from the trigger.** Popovers, dropdowns, tooltips set `transform-origin` to the trigger side (`var(--radix-popper-transform-origin, var(--transform-origin, top))` in Radix/Base UI), not center.

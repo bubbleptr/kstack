@@ -39,7 +39,7 @@ input, textarea, select { font-size: 16px; }
 }
 ```
 
-Tailwind: `text-base md:text-sm` on the shared input. While there: `inputmode="numeric"` for codes, `inputmode="decimal"` for amounts, `type="email"` / `type="tel"` for their fields, `autocapitalize="none"` + `autocorrect="off"` on usernames and codes, `autocomplete="one-time-code"` on verification inputs, `enterkeyhint="search"` / `"send"` / `"done"` so the return key says what it does.
+Tailwind: `text-base pointer-fine:text-sm` on the shared input (not `md:`, which still zooms on an iPad). While there: `inputmode="numeric"` for codes, `inputmode="decimal"` for amounts, `type="email"` / `type="tel"` for their fields, `autocapitalize="none"` + `autocorrect="off"` on usernames and codes, `autocomplete="one-time-code"` on verification inputs, `enterkeyhint="search"` / `"send"` / `"done"` so the return key says what it does.
 
 ## C4. Tap targets are 44px — SHOULD FIX
 

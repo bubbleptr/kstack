@@ -82,7 +82,7 @@ input, textarea, select {
 }
 ```
 
-Tailwind: `text-base md:text-sm`. `text-sm` alone on an input is the bug. Keyboard attributes (`inputmode`, `enterkeyhint`, `one-time-code`) are in `forms.md`.
+Tailwind: `text-base pointer-fine:text-sm` (v4.1+; otherwise a `@media (pointer: fine)` rule). Never a width breakpoint like `md:`, which shrinks inputs on an iPad. `text-sm` alone on an input is the bug. Keyboard attributes (`inputmode`, `enterkeyhint`, `one-time-code`) are in `forms.md`.
 
 ## 5. Tap feels laggy
 

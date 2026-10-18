@@ -69,7 +69,7 @@ Cross-lane self-check before you write the verdict. Any of these open is a **Not
 | Text under 4.5:1 in either theme | Move the foreground's lightness away from the background's |
 | Movement with no `prefers-reduced-motion` handling | Swap movement for opacity under `reduce` |
 | `user-scalable=no` or `maximum-scale=1` | 16px inputs |
-| Input font size under 16px on touch | `font-size: 16px` (`text-base md:text-sm`) |
+| Input font size under 16px on touch | `font-size: 16px` (`text-base pointer-fine:text-sm`) |
 | Submit button that stays enabled while submitting | `disabled={isSubmitting}` and a label that says what's happening |
 | Inputs outside a `<form>` | `<form onSubmit>` so Enter submits |
 | Destructive action with no confirmation | A confirmation dialog, not `window.confirm()` |

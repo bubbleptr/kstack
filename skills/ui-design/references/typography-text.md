@@ -63,7 +63,7 @@ Track in `em` so the adjustment scales with the text.
 ## Weight and style
 
 - Light weights are size-dependent: illegible at 11px, elegant at 32px. Don't use light weights small.
-- For hover emphasis without layout shift, increase weight via a variable font axis (through `font-weight`) rather than swapping to a fixed heavier weight.
+- Changing `font-weight` on hover reflows text even on a variable font, because heavier glyphs are wider. For hover emphasis without layout shift, use color or underline, or a grade axis (`font-variation-settings: "GRAD"`) where the font has one, since grade changes weight without changing width.
 - Italic is for citations and linguistic stress; **bold** is for UI emphasis. Italic as UI hierarchy is a publishing convention in the wrong medium.
 
 ## Cropping built-in space with text-box
@@ -204,7 +204,7 @@ Readers zoom, enlarge default font size, and force line spacing; nothing should 
 **Mobile inputs ≥ 16px.** Mobile Safari zooms the page into any focused field under `16px`. Use `16px` on small viewports, shrink only at wider breakpoints:
 
 ```tsx
-<input type="search" className="text-base md:text-sm" />
+<input type="search" className="text-base pointer-fine:text-sm" />
 ```
 
 Never patch with `maximum-scale=1` in the viewport meta: Safari ignores it for pinch zoom while Chrome on Android and others enforce it and strip zoom, violating WCAG 1.4.4 (Resize Text).
@@ -219,7 +219,7 @@ Never patch with `maximum-scale=1` in the viewport meta: Safari ignores it for p
 | --- | --- | --- |
 | Layout twitches as a number ticks | Proportional figures | `font-variant-numeric: tabular-nums` |
 | Bold looks smudged or too black | Weight never loaded, browser faked it | Load the weight; `font-synthesis: none` |
-| Tapping a field on iPhone zooms the page | Input text under `16px` | `16px` on small viewports (`text-base md:text-sm`) |
+| Tapping a field on iPhone zooms the page | Input text under `16px` | `16px` on touch (`text-base pointer-fine:text-sm`) |
 | Headline breaks seven words / one word | Greedy wrapping | `text-wrap: balance` |
 | Paragraph ends on a stranded word | No orphan control | `text-wrap: pretty` |
 | Underline slices through g, y, p | Skip-ink or position off | `text-decoration-skip-ink: auto`, `from-font` metrics |

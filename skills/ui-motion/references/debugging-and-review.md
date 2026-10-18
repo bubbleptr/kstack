@@ -30,7 +30,7 @@
 | Smell | Fix |
 | --- | --- |
 | `transition: all 400ms ease-in` | Name the properties, 200ms, `ease-out` |
-| Bare Tailwind `transition` class everywhere | Explicit property list |
+| Bare Tailwind `transition` class everywhere (broad default property list) | Explicit property list |
 | Enter from `scale(0)` or `translateY(100vh)` | `scale(0.95)` + `opacity: 0`, small travel |
 | Animating `height`/`width`/`margin` | `transform` + `opacity`; grid-rows or clip tricks for expansion |
 | Popover scales from center | `transform-origin` from the trigger |
@@ -49,7 +49,7 @@
 When reviewing animation code, check in order:
 
 1. Should this animate at all (frequency, keyboard-initiated)?
-2. Transform/opacity (filter, clip-path) only? No `transition: all` or bare Tailwind `transition`? No blur above 20px on animating elements?
+2. Transform/opacity (filter, clip-path) only? No `transition: all`, and no bare Tailwind `transition` where only one or two properties should move? No blur above 20px on animating elements?
 3. Easing matches the enter/move/hover rule?
 4. Duration under 300ms, exit faster?
 5. Interruptible (transition or spring, not keyframes, for toggles)?

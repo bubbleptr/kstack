@@ -49,7 +49,7 @@ input, textarea, select {
 }
 ```
 
-Tailwind: `text-base md:text-sm`. `text-sm` alone on an input is the bug.
+Tailwind: `text-base pointer-fine:text-sm` (v4.1+; otherwise a `@media (pointer: fine)` rule). Never a width breakpoint like `md:`, which shrinks inputs on an iPad. `text-sm` alone on an input is the bug.
 
 ## Focus
 
@@ -140,8 +140,12 @@ const [isSubmitting, setIsSubmitting] = useState(false);
   disabled={isSubmitting}
   onClick={async () => {
     setIsSubmitting(true);
-    await submitForm();
-    setIsSubmitting(false);
+    try {
+      await submitForm();
+    } finally {
+      // A failed request must not leave the button permanently disabled.
+      setIsSubmitting(false);
+    }
   }}
 >
   {isSubmitting ? 'Submitting...' : 'Submit'}

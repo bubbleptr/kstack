@@ -14,7 +14,7 @@ Pick the mode from the request. **Review** judges one diff, component, or page a
 Read the whole diff first, then judge it in this triage order (a broken interaction outranks a soft shadow):
 
 1. **Interaction correctness**: every control works with mouse, keyboard, and touch. Focus reachable, Enter/Escape wired, no dead hover-only affordances.
-2. **Accessibility floor**: 44×44px tap targets, icon buttons labeled, focus visible, `prefers-reduced-motion` honored, passing contrast. A floor; a violation is a finding. (`ui-interaction`, `ui-design`)
+2. **Accessibility floor**: 44×44px tap targets, icon buttons labeled, focus visible, `prefers-reduced-motion` honored (gentler, not zero: movement dropped, opacity and color feedback kept), passing contrast. A floor; a violation is a finding. (`ui-interaction`, `ui-design`)
 3. **Layout stability**: no shift from dynamic content, tabular numbers on changing figures, reserved space for async content, no weight change on hover/active. (`ui-engineering`)
 4. **Motion**: justified, frequency-appropriate, strong easing, sub-300ms, GPU-only properties, interruptible where needed. (`ui-motion`)
 5. **Spacing & hierarchy**: consistent scale, aligned edges, clear primary action, restraint. (`ui-design`)
@@ -38,7 +38,7 @@ Read the whole diff first, then judge it in this triage order (a broken interact
 - A raster image scaled up, or an untuned SVG dropped in at the wrong size.
 - Font weight that changes on hover or when active (text reflows by a pixel).
 - A list that can grow unbounded rendered without virtualization.
-- Missing `prefers-reduced-motion` handling on anything that moves.
+- Missing `prefers-reduced-motion` handling on anything that moves, or a reduced-motion branch that removes all feedback instead of only the movement.
 
 When a finding needs an exact threshold, load [references/standards.md](references/standards.md) (the full cross-dimensional rule catalog).
 

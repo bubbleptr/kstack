@@ -151,7 +151,7 @@ function Input({
 <Input defaultValue="hello" />
 
 // Controlled
-<Input value={value} onChange={setValue} />
+<Input value={value} onChange={(e) => setValue(e.target.value)} />
 ```
 
 ## `asChild` with Radix Slot

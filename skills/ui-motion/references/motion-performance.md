@@ -2,7 +2,7 @@
 
 ## Transition only what changes
 
-With `transition: all` (or Tailwind's bare `transition` class, which compiles to `transition-property: all`) every style change becomes a candidate animation: the browser tracks the whole style object, properties you never meant to tween (padding, shadow, colors) tween whenever they change, and the engine loses the optimizations a narrow, known property list allows.
+With `transition: all` every style change becomes a candidate animation: the browser tracks the whole style object, properties you never meant to tween (padding, shadow, colors) tween whenever they change, and the engine loses the optimizations a narrow, known property list allows. Tailwind's bare `transition` class is narrower than `all` but still a broad default list (colors, opacity, shadow, transform, filters); prefer `transition-transform` / `transition-opacity` or an explicit list.
 
 ```css
 /* Do: name each property that actually animates */
@@ -19,7 +19,7 @@ With `transition: all` (or Tailwind's bare `transition` class, which compiles to
 ```tsx
 // Do: explicit property list
 <a className="transition-[translate,opacity] duration-100 ease-out">
-// Don't: bare `transition` is `transition-property: all` in disguise
+// Don't: bare `transition` animates a broad default property list
 <a className="transition duration-100 ease-out">
 ```
 

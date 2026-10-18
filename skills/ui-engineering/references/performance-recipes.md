@@ -18,13 +18,15 @@ function VirtualList({ items }) {
 
   return (
     <div ref={parentRef} style={{ height: '400px', overflow: 'auto' }}>
-      <div style={{ height: virtualizer.getTotalSize() }}>
+      <div style={{ height: virtualizer.getTotalSize(), position: 'relative' }}>
         {virtualizer.getVirtualItems().map((virtualItem) => (
           <div
             key={virtualItem.key}
             style={{
               position: 'absolute',
               top: virtualItem.start,
+              left: 0,
+              width: '100%',
               height: virtualItem.size,
             }}
           >
