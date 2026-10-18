@@ -199,6 +199,17 @@ kstack/
   - 它的主要价值在难以复现的本地 bug（复现循环），这次没有测到。
 - **review、handoff**：内容几乎全部来自具体事故，没做 A/B。比如 dureview 的发现藏在行内评论里、draft PR 不会触发审查、worker 谎报完成。
 
+**2026-10-18，交付组**
+
+- `ship` 和 `release` 的内容几乎全部来自 nmem 里的事故和明确决定，比如：
+  - `gh stack` 默认建 draft，对下层 PR 用 `--delete-branch` 会关掉上层 PR；
+  - 发版范围按可部署单元划定；
+  - 已发布的 tag 不能移动；
+  - 下载回来的产物也要验证。
+- 这些都不是模型的默认行为，所以没做 A/B。
+- PR 正文模板沿用 matt 的 `pr`，该 skill 的来源是 HumanLayer 的 show-me。
+- nmem 里有一条较早的「不主动开 PR」，和现行 CLAUDE.md 的「交付 ready PR」冲突。以 CLAUDE.md 为准，不收录。
+
 ## 7. 待确认
 
 已确认：
