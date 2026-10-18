@@ -9,7 +9,7 @@ Sketch first, then let the human challenge the sketch. Challenging something con
 
 ## 1. Facts are your job
 
-Read the code, the Accepted ADRs, `CONTEXT.md`, and nmem before asking anything. Questions about facts the repo can answer are noise.
+Read the code, the Accepted ADRs, `CONTEXT.md`, and nmem before asking anything. Questions about facts the repo can answer are noise. When something cannot be read, state the assumption at the top of the sketch instead of asking.
 
 - Check what the request **means** before how to build it. Read ambiguous words in the context of the current setup ("switch to flash" meant the model already in use, not a different vendor's). A page built as "best of each category" when it meant "all of them" was a semantic miss no layout could fix.
 - Treat memory as a hypothesis. A remembered priority or decision gets checked against the current code or issue before it shapes the sketch.
@@ -24,7 +24,9 @@ Write it in the reply, in this order:
 3. **Alternative**: one structurally different design (not a variant of the same shape), with one line on why it lost.
 4. **Decided**: reversible choices you made, each with a one-line reason. Do not ask about these.
 5. **Deferred**: what cannot be decided before implementation, marked as such rather than forced.
-6. **Open questions**: at most three, only for irreversible choices or product direction, asked in plain text after the sketch.
+6. **Open questions**: at most three, only for irreversible choices or product direction, asked in plain text after the sketch. Prefer one question with a recommended answer over three open ones.
+
+Then stop for the user when the work is large or an open question is irreversible; otherwise proceed on the sketch and let the user course-correct.
 
 For layout or placement work, the sketch shows where it goes, what form it takes, and the trade-off — options side by side if needed — before any UI code. Building from a one-line description led to a full redo.
 

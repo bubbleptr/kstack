@@ -7,6 +7,15 @@ description: Diagnosis loop for hard bugs, production incidents, flaky tests, an
 
 CLAUDE.md already requires root cause before fix. This skill is how to get there without guessing, and how to tell a proven cause from a plausible one.
 
+## 0. Production incident: stop the bleeding, read the error
+
+When something broke in production, two steps come before the loop:
+
+1. **What changed?** Line the symptom's start time up against deploys, config changes, dependency bumps, and upstream announcements. A change minutes before the symptom is the first suspect.
+2. **Read the actual error text** in the service's logs (see grading in §4). If a recent deploy is the likely cause, roll back first and keep diagnosing; the rollback is itself a test of that hypothesis.
+
+Then build the loop below against a non-production target, or read-only against production.
+
 ## 1. Build the loop first
 
 The skill is a **red-capable** command: one command you have already run, that drives the real code path, asserts the user's exact symptom, is deterministic, takes seconds, and runs unattended. Until it exists, do not form theories from reading code.
