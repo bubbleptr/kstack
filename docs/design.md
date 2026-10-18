@@ -63,6 +63,7 @@ kstack 的内容会周期性地从 nmem 提炼：某条经验在 nmem 里反复�
 - **`design`**：先拿出草图，再挑战草图，取代原来的 grill 和 spec。（pstack architect、matt grilling 的「事实 / 决策」区分、harness/templates/task-brief.md）详见下方「流程桶的两个原则」。
 - **`diagnose`**：难缠 bug 和性能回退的诊断循环。（diagnosing-bugs）
 - **`review`**：按「仓库规范」和「相关 ADR」两条轴审查改动；涉及 UI 时自动加上 UI 审查这一维。（code-review、emil-ui-review）
+- **`handoff`**：把当前会话压缩成另一个 agent 能接手的文档。（handoff）
 - 对抗式审查（pstack `interrogate` 的思路）不单独成 skill，作为 `review` 的可选模式，只在设计有争议时打开。
 
 #### 流程桶的两个原则
@@ -86,7 +87,6 @@ grill 消耗注意力，根因在顺序：它先抛出一棵开放的决策树�
 - **ADR 带日期，并标注 Accepted 或 Superseded by ADR-NNNN 状态。** 它记录的是历史，不是现状，所以过时是被允许的；它回答的是「当时为什么这么定」，而不是「现在是什么样」。agent 只把 Accepted 状态的 ADR 当作约束。
 - **任务拆分不入库。** 大任务拆成子代理 brief（沿用 harness/templates/task-brief.md）和 stacked PR。brief 用完即弃，留在 PR 描述里就够了。
 - ADR 和 GLOSSARY 的维护规则放在 `domain-design` 里，`design` 只负责引用。
-- **`handoff`**：把当前会话压缩成另一个 agent 能接手的文档。（handoff）
 
 ### 前端（Frontend）
 - **`frontend-architecture`**：FSD 在 TanStack Start / Next / Vite SPA / Expo / 原生下分别怎么切；路由、数据获取、状态归属的默认选择。（我的偏好 + nmem，**上游空白**）
@@ -132,6 +132,22 @@ kstack/
 2. **前端桶**：合并压缩 emil，确定我的 UI 口味。这一步需要我（Kieran）大量参与判断。
 3. **流程 + 交付桶**：在 matt 的基础上改写，对接我现有的 Claude 主循环 + dureview + gh stack 流程。
 4. 每个 skill 写完后，用一个真实任务跑一次，对比有无该 skill 时的行为差异；没差异就删。
+
+### 验证记录
+
+**2026-10-18，后端组**
+
+- **做法**：给两个子代理同一个场景：Go + Postgres 的推荐奖励 webhook、新增 API 字段、header 改名、蓝绿部署。一个加载后端三个 skill，一个不加载，对比输出。
+- **结论**：
+  - 「事务内不调外部服务」「唯一约束做幂等」「expand/contract」「outbox」这些教科书规则，不加载 skill 也会做到，属于 no-op，已经删掉。
+  - skill 的增量全部来自偏好和具体事故：
+    - 按上下文划分状态所有权；
+    - 字段名带单位；
+    - 术语写进 CONTEXT.md；
+    - ADR 只记决策，部署细节放 PR；
+    - envelope 带 `schemaVersion`；
+    - mock 用真实响应。
+- **局限**：只跑了一个场景，而且这个场景和 skill 的素材（nmem 里的事故）同源。真正的检验要等下一个不同领域的真实任务。
 
 ## 7. 待确认
 
