@@ -38,7 +38,7 @@ kstack 不推翻这个判断，而是把它推到底：模型编码能力变强�
 
 上面这道筛子只适用于我有生产经验的领域，比如后端、交付和工程流程。前端设计我还在学习期，过去的偏好和决策还在变化，不能当依据。所以前端设计以选定的老师 emil 为准，**不从 nmem 提炼口味**。等我形成稳定判断后，再用一个薄 skill 覆盖 emil 的个别规则。
 
-这里的 emil 指本机 `~/.agents/skills` 下的 29 个 `emil-*`，它们来自我购买的 aiforui.dev 设计课程。这套是单独安装的，不在 `.skill-lock.json` 里，原样保留，不 fork、不改写。它和开源的 emilkowalski/skills（15 个 skill）不是同一套，不要安装后者，否则 `prototype`、`mobile-native` 等名字会撞车。
+这里的 emil 指本机 `~/.agents/skills` 下的 28 个 `emil-*`，它们来自我购买的 aiforui.dev 设计课程。这套是单独安装的，不在 `.skill-lock.json` 里，原样保留，不 fork、不改写。它和开源的 emilkowalski/skills（15 个 skill）不是同一套，不要安装后者，否则 `prototype`、`mobile-native` 等名字会撞车。
 
 附加规则：
 
@@ -95,7 +95,7 @@ grill 消耗注意力，根因在顺序：它先抛出一棵开放的决策树�
 - ADR 和 GLOSSARY 的维护规则放在 `domain-design` 里，`design` 只负责引用。
 
 ### 前端（Frontend）
-- **设计（UI/UX）**：原样使用本机的 29 个 `emil-*`，kstack 不收录。
+- **设计（UI/UX）**：原样使用本机的 28 个 `emil-*`，kstack 不收录。
 - **`frontend-architecture`**：已放弃，原因见验证记录。
 - **和其他组的关系**：
   - emil 的 `ui-review` 是流程组 `review` 的 UI 维度；
