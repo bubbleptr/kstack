@@ -54,7 +54,7 @@ Every conclusion states what it rests on. The grades that have been confused bef
 
 ## 5. Fix, lock, clean up
 
-- Regression test first, at a seam that reproduces the real call pattern. If no honest seam exists, say so; that is an architecture finding, not a reason to write a shallow test.
+- The regression test sits at a seam that reproduces the real call pattern. If no honest seam exists, say so; that is an architecture finding, not a reason to write a shallow test.
 - Re-run the original (un-minimized) loop after the fix.
 - Remove every tagged debug line and throwaway harness.
 - The PR states the hypothesis that proved correct.

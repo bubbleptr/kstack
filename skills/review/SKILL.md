@@ -7,7 +7,8 @@ description: Review a branch, PR, or work-in-progress diff along two axes — re
 
 ## 1. Pin what is being reviewed
 
-- Review a branch or worktree against an explicit base: `git diff <base>...HEAD` (three dots, merge-base). Run from the main workspace without a base, a review comes back empty and looks like a pass.
+- **Branch or PR**: diff against an explicit base, `git diff <base>...HEAD` (three dots, merge-base). Run from the main workspace without a base, a review comes back empty and looks like a pass.
+- **Work in progress**: committed changes are not the whole picture. Review `git diff <base>` (working tree against the base, staged and unstaged) and list untracked files with `git status --porcelain`; an empty `...HEAD` diff does not mean there is nothing to review.
 - Confirm the ref resolves and the diff is non-empty before reviewing.
 - Problems that already exist on the base branch are out of scope for this PR. Note them as a separate issue instead of blocking.
 
