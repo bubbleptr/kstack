@@ -95,13 +95,25 @@ grill 消耗注意力，根因在顺序：它先抛出一棵开放的决策树�
 - ADR 和 GLOSSARY 的维护规则放在 `domain-design` 里，`design` 只负责引用。
 
 ### 前端（Frontend）
-- **设计（UI/UX）**：原样使用本机的 28 个 `emil-*`，kstack 不收录。
-- **`frontend-architecture`**：已放弃，原因见验证记录。
-- **和其他组的关系**：
-  - emil 的 `ui-review` 是流程组 `review` 的 UI 维度；
-  - emil 的 `prep-for-prod` 是交付组 `release` 的 UI 维度；
-  - 这两处都直接引用 emil，不复制内容。
-- **和 matt 重叠时以 emil 为准**：`prototype` 用 emil 的版本。
+
+素材只来自本机购买的 28 个 `emil-*`，不从 nmem 提炼。emil 的判断和精确数值都保留；去掉的只有三类：路由和元说明、多个 skill 之间的重复内容、纯解释性的铺垫。正文只写判断，数值和查表内容放进 `references/`。
+
+| kstack skill | 来自 emil |
+|---|---|
+| `ui-design` | design-foundations、typography、color、surfaces、unslop-design、marketing-pages |
+| `ui-motion` | animations |
+| `ui-engineering` | ui-polish、performance |
+| `ui-interaction` | forms-and-inputs、touch-and-accessibility、mobile-native |
+| `component-api` | component-design、design-system-docs |
+| `prototype` | emil-prototype（取代 matt 的 prototype） |
+| `ui-review` | ui-review、prep-for-prod（作为发布前全量检查模式） |
+| `unslop` | unslop-code、unslop-writing |
+
+不收的有：ask-emil（路由由 kstack 自己的路由 skill 承担）、ask-lapse、borrow-a-brain、build-a-tool、get-creative、product-thinking、两个 vocabulary，以及 writing-skills（并入元 skill `write-skill`）。
+
+`frontend-architecture` 已放弃，原因见验证记录。流程组的 `review` 和交付组的 `release` 遇到 UI 时，直接引用 `ui-review`。
+
+全部迁移完成后，备份并卸载本机的 `emil-*`。这一步需要你确认。
 
 ### 后端（Backend，上游全部空白）
 - **`domain-design`**：DDD 限界上下文怎么划、领域逻辑和传输层 / 持久层怎么隔离，以及 GLOSSARY / ADR 的维护。（domain-modeling、codebase-design 的 deep module 词汇 + 我的偏好）
