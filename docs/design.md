@@ -12,7 +12,17 @@ kstack 不推翻这个判断，而是把它推到底：模型编码能力变强�
 2. **我的决策**：技术栈（TanStack / Next、Bun、Vite、Monorepo、FSD、DDD）以及它们在具体场景下怎么落地。
 3. **我踩过的坑**：nmem 里的部署、发布、跨机器、平台差异等经验。
 
-所以 kstack 的定位是：**一套以我的偏好和决策为主体、上游内容按需吸收的自有 skill 集**，替代而非叠加 matt + emil。
+所以 kstack 的定位是：**一套以我的偏好和决策为主体、上游内容按需吸收的自有 skill 集**。它会**替代** matt + emil + pstack，而不是叠加在上面。
+
+三套上游各取所长：
+
+- **matt**（mattpocock/skills）：取它区分「事实」和「决策」的做法，以及 ADR / GLOSSARY 的维护方式。
+- **emil**：取 UI 判断和精确数值，数值放进 `references/`。
+- **pstack**（poteto，Cursor 插件）：只取能对付「过度规划、注意力消耗」的部分：
+  - `architect`：先写调用方怎么用，再从用法推出类型；至少给出两个结构不同的草图；默认不设人工确认点。
+  - 三条原则：`never-block-on-the-human`、`sequence-verifiable-units`、`foundational-thinking`（数据结构先行）。
+
+  不收的部分：`arena`/`swarm` 的多模型并跑，因为我这里是 Opus 主循环 + Fable advisor，没有 grok 那类评审组；`poteto-mode` 的 23 个 playbook 也不收。
 
 ## 2. 入选标准
 
@@ -50,10 +60,32 @@ kstack 的内容会周期性地从 nmem 提炼：某条经验在 nmem 里反复�
 - **`kstack`**：在不知道用哪个 skill 时给出选择和顺序。（ask-matt、emil-ask-emil）
 
 ### 流程（Flow）
-- **`grill`**：拷问计划或设计，区分「事实自己查」和「决策问人」，结束前必须确认理解一致。（grill-me、grilling、grill-with-docs）
-- **`spec`**：把讨论沉淀成 spec 并拆成带依赖边的任务简报，直接对接我的子代理 brief 格式和 stacked PR。（to-spec、to-tickets、harness/templates/task-brief.md）
+- **`design`**：先拿出草图，再挑战草图，取代原来的 grill 和 spec。（pstack architect、matt grilling 的「事实 / 决策」区分、harness/templates/task-brief.md）详见下方「流程桶的两个原则」。
 - **`diagnose`**：难缠 bug 和性能回退的诊断循环。（diagnosing-bugs）
-- **`review`**：按仓库规范和 spec 两条轴审查改动；UI 改动时自动加上 UI 审查这一维。（code-review、emil-ui-review）
+- **`review`**：按「仓库规范」和「相关 ADR」两条轴审查改动；涉及 UI 时自动加上 UI 审查这一维。（code-review、emil-ui-review）
+- 对抗式审查（pstack `interrogate` 的思路）不单独成 skill，作为 `review` 的可选模式，只在设计有争议时打开。
+
+#### 流程桶的两个原则
+
+**一、先出草图，再挑战草图，不做开放式问答。**
+
+grill 消耗注意力，根因在顺序：它先抛出一棵开放的决策树让人逐个回答，可很多决策在动手之前根本没法定。`design` 把顺序反过来：
+
+1. 事实自己查：读代码、查 nmem、看 ADR。不拿事实问人。
+2. 直接给出具体草图：先写调用方的用法，再写数据结构和类型签名，并给出一个结构不同的备选方案。
+3. 可逆的决策自己定，写进草图并说明理由（这就是 CLAUDE.md 里的 state and proceed）。
+4. 只有不可逆的决策或产品方向才问人，并且放在草图**之后**，以「待定问题」的形式列出，一般不超过三个。
+5. 还没法决定的事，明确标成「留给实现阶段决定」，不要硬定。
+
+挑战一个具体草图，比回答一串抽象问题省力得多。CLAUDE.md 里「work is large 时展开 fuller design 并确认」，指的就是这个 skill。
+
+**二、功能的事实源只有一份：代码 + 测试。文档只记录决策。**
+
+- **不写 spec。** 功能文档必然会和代码漂移，过时以后会误导 agent，还逼着仓库维护两份事实。
+- **`design` 的产物是一份短 ADR**，在**做出决策时**写，不在实现之前写。ADR 只有四节：Problem / Decision / Alternatives（每个一行）/ Consequences。
+- **ADR 带日期，并标注 Accepted 或 Superseded by ADR-NNNN 状态。** 它记录的是历史，不是现状，所以过时是被允许的；它回答的是「当时为什么这么定」，而不是「现在是什么样」。agent 只把 Accepted 状态的 ADR 当作约束。
+- **任务拆分不入库。** 大任务拆成子代理 brief（沿用 harness/templates/task-brief.md）和 stacked PR。brief 用完即弃，留在 PR 描述里就够了。
+- ADR 和 GLOSSARY 的维护规则放在 `domain-design` 里，`design` 只负责引用。
 - **`handoff`**：把当前会话压缩成另一个 agent 能接手的文档。（handoff）
 
 ### 前端（Frontend）
@@ -76,6 +108,8 @@ kstack 的内容会周期性地从 nmem 提炼：某条经验在 nmem 里反复�
 - **`write-skill`**：kstack 自己的写作规范，也就是第 2 节的入选标准。（emil-writing-skills、writing-for-agents）
 
 ### 有意不收的
+- grill-me、grilling、grill-with-docs、to-spec、to-tickets、implement-spec：由 `design` 和「只记录决策」的原则取代。
+- pstack 的 poteto-mode、arena、swarm、recall、ketchup 等：依赖 Cursor 环境和多模型组合，或者已有更合适的替代（nmem、obelisk）。
 - research、teach、wizard、to-questionnaire、retro、wayfinder、triage、resolving-merge-conflicts、design-vocabulary、engineering-vocabulary、marketing-pages、mobile-native、ask-lapse、borrow-a-brain、build-a-tool、get-creative、product-thinking：要么模型已经足够胜任，要么和全栈开发主线无关。需要时可以继续单独安装上游版本。
 - obelisk、better-readme、kami、ego-browser：独立工具，和 kstack 无关，保持原样。
 
@@ -101,7 +135,12 @@ kstack/
 
 ## 7. 待确认
 
-1. 「pstak」具体指哪一套？本机没有安装，nmem 里只有 gstack（Garry Tan）的分析记录。
-2. 替代还是叠加：建议替代，按桶逐步卸载上游。
-3. 骨架里的增删：哪些是你实际高频使用的，哪些可以砍。
-4. 前端口味：emil 之外，有没有你明确喜欢或讨厌的设计参照（产品、站点、设计系统）？
+已确认：
+- pstack 指 Cursor 里 poteto 的插件；
+- 走替代路线；
+- grill 改成「先草图后挑战」，spec 取消，改为只记决策的 ADR。
+
+仍待确认：
+1. pstack 的吸收范围（第 1 节）是否合适。
+2. 流程桶的新形态，也就是 `design`、`diagnose`、`review`、`handoff` 这四个，有没有要增删的。
+3. 前端口味：emil 之外，有没有你明确喜欢或讨厌的设计参照？这一条不影响后端桶先行。
