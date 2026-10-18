@@ -96,7 +96,7 @@ grill 消耗注意力，根因在顺序：它先抛出一棵开放的决策树�
 
 ### 前端（Frontend）
 - **设计（UI/UX）**：原样使用本机的 29 个 `emil-*`，kstack 不收录。
-- **`frontend-architecture`**：FSD 在不同平台上的切法，以及 TanStack Router/Start、Vite、Bun 的默认选择。素材只来自全局 CLAUDE.md 的 Technology Preferences，保持很薄。
+- **`frontend-architecture`**：已放弃，原因见验证记录。
 - **和其他组的关系**：
   - emil 的 `ui-review` 是流程组 `review` 的 UI 维度；
   - emil 的 `prep-for-prod` 是交付组 `release` 的 UI 维度；
@@ -160,6 +160,20 @@ kstack/
 **2026-10-18，前端口味草图作废**
 
 我曾经从 nmem 和 PiGUI 里提炼过一份前端口味草图。它被否决了：前端还处于学习期，过去的选择不能当依据。文件已经删除，前端设计改为以 emil 为准。
+
+**2026-10-18，frontend-architecture 放弃**
+
+- **做法**：同一个场景（Web 控制台 + Electron + 后续 Expo，后端是已有的 Go 服务）做 A/B，两组都带上了全局 CLAUDE.md 的技术偏好。
+- **结果**：不加载 skill 的一组也做到了这些：
+  - 框架选择（后端已有时用纯客户端的 TanStack Router）；
+  - FSD 切片；
+  - 用 Steiger 做 lint；
+  - 有第二个使用方才提升到 packages；
+  - Expo 路由文件保持很薄；
+  - 不把服务端数据复制进客户端 store。
+- **差异**：只有一点，Electron 主进程按 DDD 组织。
+- **结论**：CLAUDE.md 里的单行技术偏好已经足够驱动行为，这个 skill 是 no-op。前端组在 kstack 里因此为空。
+- **推论**：写 skill 之前，先看 CLAUDE.md 里的一行规则是否已经覆盖了它。
 
 ## 7. 待确认
 
