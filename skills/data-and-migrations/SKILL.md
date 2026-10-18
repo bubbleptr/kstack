@@ -18,13 +18,9 @@ The standard moves — constraints for invariants, unique keys for idempotency, 
 
 ## Transactions and side effects
 
-- A transaction holds database work only. External calls (payment provider, upstream API) happen outside, in a reserve → call → settle shape:
-  1. tx1: lock rows, write a `PENDING` record and the reservation.
-  2. Call out.
-  3. tx2: write back the result, or a compensating entry.
-  A crash between steps leaves a `PENDING` row for a reconciler. That is the point.
-- Post-commit effects (email, push, webhooks) go through a **transactional outbox**: the row is written in the same transaction as the state change, a dispatcher sends after commit, and each channel retries on its own so one failing channel never blocks or duplicates another. An in-app notification that is just a row is state; write it in the transaction directly.
-- Lock in a consistent order (`FOR UPDATE` ordered by account id) so concurrent transfers cannot deadlock.
+- When a write must wrap an external call, the house shape is tx1 (`PENDING` + reservation) → call → tx2 (settle or compensate). The `PENDING` row is what a reconciler finishes after a crash.
+- One outbox row per notification channel, retried independently, so a failing email never blocks or duplicates the push.
+- Multi-account writes lock with `FOR UPDATE` ordered by account id.
 
 ## Money and ledgers
 
