@@ -34,6 +34,10 @@ kstack 不推翻这个判断，而是把它推到底：模型编码能力变强�
 | 不写的话，Opus 级模型会**稳定地**做错吗？ | 进正文，并写清 why | 继续问 |
 | 需要精确数值或查表（色阶、缓动曲线、字号表）吗？ | 放 `references/`，按需读取 | **删掉** |
 
+**按领域区分标准（2026-10-18 修订）：**
+
+上面这道筛子只适用于我有生产经验的领域，比如后端、交付和工程流程。前端设计我还在学习期，过去的偏好和决策还在变化，不能当依据。所以前端设计以选定的老师 emil（emilkowalski/skills）为准，**不从 nmem 提炼口味**。等我形成稳定判断后，再用一个薄 skill 覆盖 emil 的个别规则。
+
 附加规则：
 
 - `~/.claude/CLAUDE.md` 里已经常亮的闸门（设计先行、TDD、根因、证据、Trust no stale docs、复杂度自证）**一律不在 skill 里重述**，skill 只放流程和口味。
@@ -89,11 +93,13 @@ grill 消耗注意力，根因在顺序：它先抛出一棵开放的决策树�
 - ADR 和 GLOSSARY 的维护规则放在 `domain-design` 里，`design` 只负责引用。
 
 ### 前端（Frontend）
-- **`frontend-architecture`**：FSD 在 TanStack Start / Next / Vite SPA / Expo / 原生下分别怎么切；路由、数据获取、状态归属的默认选择。（我的偏好 + nmem，**上游空白**）
-- **`ui-craft`**：我的设计底线，覆盖层级、间距、字体、颜色、表面、动效、交互状态。正文只写判断和口味，数值进 `references/`。（emil 的 foundations、typography、color、surfaces、animations、ui-polish、forms、touch-and-accessibility 合并压缩）
-- **`unslop`**：去除代码、界面、文案里的 AI 痕迹。（emil-unslop-code、emil-unslop-design、emil-unslop-writing）
-- **`prototype`**：用多个真正不同的版本探索方向，或者用一次性代码验证状态模型。（matt prototype、emil-prototype）
-- **`component-api`**：React 组件 API 设计，以及 shared/ui 组件注册到设计画廊的约定。（emil-component-design + PiGUI 经验）
+- **设计（UI/UX）**：以 emil 为准，具体形态待定，见第 7 节。
+- **`frontend-architecture`**：FSD 在不同平台上的切法，以及 TanStack Router/Start、Vite、Bun 的默认选择。素材只来自全局 CLAUDE.md 的 Technology Preferences，保持很薄。
+- **和其他组的关系**：
+  - emil 的 `ui-review` 是流程组 `review` 的 UI 维度；
+  - emil 的 `prep-for-prod` 是交付组 `release` 的 UI 维度；
+  - 这两处都直接引用 emil，不复制内容。
+- **和 matt 重叠时以 emil 为准**：`prototype` 用 emil 的版本。
 
 ### 后端（Backend，上游全部空白）
 - **`domain-design`**：DDD 限界上下文怎么划、领域逻辑和传输层 / 持久层怎么隔离，以及 GLOSSARY / ADR 的维护。（domain-modeling、codebase-design 的 deep module 词汇 + 我的偏好）
@@ -148,6 +154,10 @@ kstack/
     - envelope 带 `schemaVersion`；
     - mock 用真实响应。
 - **局限**：只跑了一个场景，而且这个场景和 skill 的素材（nmem 里的事故）同源。真正的检验要等下一个不同领域的真实任务。
+
+**2026-10-18，前端口味草图作废**
+
+我曾经从 nmem 和 PiGUI 里提炼过一份前端口味草图。它被否决了：前端还处于学习期，过去的选择不能当依据。文件已经删除，前端设计改为以 emil 为准。
 
 ## 7. 待确认
 
