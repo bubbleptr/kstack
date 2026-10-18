@@ -63,6 +63,7 @@ kstack 的内容会周期性地从 nmem 提炼：某条经验在 nmem 里反复�
 - **`design`**：先拿出草图，再挑战草图，取代原来的 grill 和 spec。（pstack architect、matt grilling 的「事实 / 决策」区分、harness/templates/task-brief.md）详见下方「流程桶的两个原则」。
 - **`diagnose`**：难缠 bug 和性能回退的诊断循环。（diagnosing-bugs）
 - **`review`**：按「仓库规范」和「相关 ADR」两条轴审查改动；涉及 UI 时自动加上 UI 审查这一维。（code-review、emil-ui-review）
+- **`handoff`**：把当前会话压缩成另一个 agent 能接手的文档。（handoff）
 - 对抗式审查（pstack `interrogate` 的思路）不单独成 skill，作为 `review` 的可选模式，只在设计有争议时打开。
 
 #### 流程桶的两个原则
@@ -86,7 +87,6 @@ grill 消耗注意力，根因在顺序：它先抛出一棵开放的决策树�
 - **ADR 带日期，并标注 Accepted 或 Superseded by ADR-NNNN 状态。** 它记录的是历史，不是现状，所以过时是被允许的；它回答的是「当时为什么这么定」，而不是「现在是什么样」。agent 只把 Accepted 状态的 ADR 当作约束。
 - **任务拆分不入库。** 大任务拆成子代理 brief（沿用 harness/templates/task-brief.md）和 stacked PR。brief 用完即弃，留在 PR 描述里就够了。
 - ADR 和 GLOSSARY 的维护规则放在 `domain-design` 里，`design` 只负责引用。
-- **`handoff`**：把当前会话压缩成另一个 agent 能接手的文档。（handoff）
 
 ### 前端（Frontend）
 - **`frontend-architecture`**：FSD 在 TanStack Start / Next / Vite SPA / Expo / 原生下分别怎么切；路由、数据获取、状态归属的默认选择。（我的偏好 + nmem，**上游空白**）
