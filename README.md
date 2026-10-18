@@ -5,7 +5,7 @@ Kieran 的个人 skill 集，面向前后端全栈开发，取代了此前安装
 - 设计与取舍：[docs/design.md](docs/design.md)，包括入选标准和每一组的验证记录。
 - skill 源文件：`skills/<name>/SKILL.md`。按需读取的参考资料放在 `skills/<name>/references/`。
 - skill 正文用英文写，文档用中文写。
-- 纪律闸门（设计先行、TDD、根因、证据）写在 `~/.claude/CLAUDE.md` 里，所有工作都适用，skill 不重复这些内容。
+- 纪律闸门（设计先行、TDD、根因、证据）写在全局规则里（`~/.agents/AGENTS.md`，Claude Code 用 `~/.claude/CLAUDE.md`，源文件都在 [harness](https://github.com/bubbleptr/harness) 仓库），所有工作都适用，skill 不重复这些内容。
 
 ## Skill 一览
 
@@ -52,7 +52,7 @@ Kieran 的个人 skill 集，面向前后端全栈开发，取代了此前安装
 
 ## 安装
 
-把每个 skill 软链接到两个目录：`~/.agents/skills` 供 Codex、Pi、Grok 读取，`~/.claude/skills` 供 Claude Code 读取。
+把每个 skill 软链接到两个目录：`~/.agents/skills` 供 Codex、Pi、Grok 读取，`~/.claude/skills` 供 Claude Code 读取（只在装了 Claude Code 的机器上需要，没装的机器把命令里的 `~/.claude/skills` 删掉）。仓库克隆到哪个目录都行。
 
 ```bash
 mkdir -p ~/.agents/skills ~/.claude/skills

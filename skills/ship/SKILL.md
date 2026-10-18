@@ -5,7 +5,7 @@ description: Get a change from a working branch to users — commits, PR body, s
 
 # Ship
 
-CLAUDE.md already sets the route to main: feature branch, ready PR, one dureview pass, merge only when told, clean up afterwards. This skill holds what goes into each step and the traps along the way, then everything from main to users.
+The global rules (`AGENTS.md` / `CLAUDE.md`) already set the route to main: feature branch, ready PR, one dureview pass, merge only when told, clean up afterwards. This skill holds what goes into each step and the traps along the way, then everything from main to users.
 
 ## Commits
 

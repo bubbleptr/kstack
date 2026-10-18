@@ -1,6 +1,6 @@
 ---
 name: design
-description: Turn a feature request or change into a concrete sketch before implementing — the caller's usage, data shapes and signatures, one structurally different alternative, and at most three open questions — instead of an open-ended interview. Use when the work is large enough that CLAUDE.md calls for a fuller design, when the scope is vague ("it's kind of big… or small"), when the request touches layout or placement, when there are competing architectures, or when the user says design, plan, sketch, architect, or "how should we build this".
+description: Turn a feature request or change into a concrete sketch before implementing — the caller's usage, data shapes and signatures, one structurally different alternative, and at most three open questions — instead of an open-ended interview. Use when the work is large enough that the global rules call for a fuller design, when the scope is vague ("it's kind of big… or small"), when the request touches layout or placement, when there are competing architectures, or when the user says design, plan, sketch, architect, or "how should we build this".
 ---
 
 # Design

@@ -5,7 +5,7 @@ description: Diagnosis loop for hard bugs, production incidents, flaky tests, an
 
 # Diagnose
 
-CLAUDE.md already requires root cause before fix. This skill is how to get there without guessing, and how to tell a proven cause from a plausible one.
+The global rules (`AGENTS.md` / `CLAUDE.md`) already require root cause before fix. This skill is how to get there without guessing, and how to tell a proven cause from a plausible one.
 
 ## 0. Production incident: stop the bleeding, read the error
 

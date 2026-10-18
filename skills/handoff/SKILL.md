@@ -24,7 +24,7 @@ Use a fork-style handoff to start new work from this context; use compaction to 
 
 The worker starts from nothing and does not read follow-up messages, so every mandatory requirement is in the brief itself. Long briefs go in a file the task points to.
 
-Beyond goal, acceptance commands, files, constraints, and out-of-scope (the template is `~/code/harness/templates/task-brief.md`), state:
+Beyond goal, acceptance commands, files, constraints, and out-of-scope (the template is `templates/task-brief.md` in the harness repo, https://github.com/bubbleptr/harness), state:
 
 - **Cross-layer constraints** the worker cannot infer from the files it opens (whether an event must reach the journal, which process owns a piece of state).
 - **The language of user-facing text.** A worker copied the brief's Chinese into the UI.
