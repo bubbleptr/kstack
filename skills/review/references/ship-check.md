@@ -1,6 +1,6 @@
 # Ship-check lookup tables
 
-Load during a pre-launch sweep: the greps in Phase 2, the severity examples in Phase 3, the findings-table shape and device/human examples in Phase 5, and the Never Ship table before writing the verdict.
+Load during a pre-launch sweep ([ui-launch-sweep.md](ui-launch-sweep.md)): the greps in Phase 2, the severity examples in Phase 3, the findings-table shape and device/human examples in Phase 5, and the Never Ship table before writing the verdict.
 
 ## Greps that pay off across lanes
 
@@ -25,7 +25,7 @@ metadata                 og:image                 force-dynamic
 
 ## Severity examples
 
-The lane files carry a default severity per check. The severity tree in SKILL.md overrides the default when context demands: a missing `alt` on the only product image is a blocker, a `100vh` on a desktop-only tool is nothing.
+The lane files carry a default severity per check. The severity tree in [ui-launch-sweep.md](ui-launch-sweep.md) (Phase 3) overrides the default when context demands: a missing `alt` on the only product image is a blocker, a `100vh` on a desktop-only tool is nothing.
 
 | Severity | Examples |
 | --- | --- |

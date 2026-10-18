@@ -1,6 +1,6 @@
 # Lane D — Forms
 
-Forms are where users do real work and where launch-day money is lost: signup, checkout, invite, settings. Every check here is a rough edge someone hits in their first session. For anything deeper, the owning skill is `ui-interaction`.
+Forms are where users do real work and where launch-day money is lost: signup, checkout, invite, settings. Every check here is a rough edge someone hits in their first session. For anything deeper, the owning skill is `ui-build`.
 
 Sweep the forms in order of what they cost when broken: auth and checkout first, then creation flows, then settings.
 

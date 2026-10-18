@@ -250,7 +250,7 @@ Tell the browser which axes the element owns. Values name what the *browser* may
 </video>
 ```
 
-Without `muted` iOS refuses to autoplay; without `playsinline` it opens the fullscreen player. Under `prefers-reduced-motion: reduce`, don't autoplay; show controls (`autoPlay={!prefersReducedMotion} controls={prefersReducedMotion}`). Pause when scrolled out of view (IntersectionObserver pattern: ui-engineering).
+Without `muted` iOS refuses to autoplay; without `playsinline` it opens the fullscreen player. Under `prefers-reduced-motion: reduce`, don't autoplay; show controls (`autoPlay={!prefersReducedMotion} controls={prefersReducedMotion}`). Pause when scrolled out of view (IntersectionObserver pattern: [performance-recipes.md](performance-recipes.md)).
 
 ## 13. Status bar color doesn't match
 

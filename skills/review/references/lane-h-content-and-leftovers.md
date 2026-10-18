@@ -147,7 +147,7 @@ Comments that narrate the code (`// Set the state to loading`), comments that ta
 
 ### H15. Generated-looking surfaces — POLISH
 
-The indigo gradient hero, gradient headline text, glass cards over nothing, a three-card grid of emoji features, sparkle icons meaning "AI", a fade-in on every section. These don't break anything either, and the week before launch is the wrong time to redesign (Operating Posture, failure mode 3). Note them in one line and name `ui-design` for after launch. Emoji used as functional icons in product UI are the exception: they render differently on every platform, so flag them as SHOULD FIX.
+The indigo gradient hero, gradient headline text, glass cards over nothing, a three-card grid of emoji features, sparkle icons meaning "AI", a fade-in on every section. These don't break anything either, and the week before launch is the wrong time to redesign (Posture, failure mode 3, in [ui-launch-sweep.md](ui-launch-sweep.md)). Note them in one line and name `ui-design` for after launch. Emoji used as functional icons in product UI are the exception: they render differently on every platform, so flag them as SHOULD FIX.
 
 ### H16. Read every public page out loud — always
 

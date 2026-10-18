@@ -43,7 +43,7 @@ Paired decisions with the reason the better choice wins. Several are trick quest
 12. Labels toggle their checkboxes: proper `<label>` association is one attribute and fixes a too-small hit target.
 13. Show validation errors inline next to the offending field, not stacked above the form.
 
-Depth on forms, touch, and mobile: `ui-interaction`.
+Depth on forms, touch, and mobile: `ui-build`.
 
 ## Motion timing
 

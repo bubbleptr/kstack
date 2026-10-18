@@ -1,6 +1,6 @@
 # The Global Baseline
 
-When a project has none of this, ship it first (Phase 4, step 2). It resolves a dozen findings across lanes A, B, C, E, G, and H at once, and it's the floor for any app a phone will open.
+When a project has none of this, ship it first (Phase 4, step 2 of [ui-launch-sweep.md](ui-launch-sweep.md)). It resolves a dozen findings across lanes A, B, C, E, G, and H at once, and it's the floor for any app a phone will open.
 
 Read before pasting:
 

@@ -82,7 +82,7 @@ Use a **spring** instead of a curve when motion is gesture-driven or interruptib
 12. **Disable transitions during theme switches.** Otherwise every color on the page tweens independently.
 13. **Keep per-frame animation out of React state.** A re-render per frame drops frames; use refs + direct style writes, WAAPI, or the library's loop. Don't animate CSS variables consumed deep in a tree: every change recalculates styles for all descendants.
 14. **`will-change` is a targeted fix, not seasoning.** Only `transform`, `opacity`, `filter` (compositor properties), only on elements that animate, only after observing first-frame stutter or ~1px start/end jitter (Safari is the usual offender). Never `will-change: all`, never globally: each layer costs GPU memory.
-15. **Pause looping animations off-screen** (spinners, shimmer, marquees) with `IntersectionObserver` or `animation-play-state: paused` to save CPU/battery. General off-screen work pausing (video, heavy operations) lives in `ui-engineering`.
+15. **Pause looping animations off-screen** (spinners, shimmer, marquees) with `IntersectionObserver` or `animation-play-state: paused` to save CPU/battery. General off-screen work pausing (video, heavy operations) lives in `ui-build`.
 16. **CSS vs. JS engine:** CSS transitions/animations run off the main thread and suit simple predetermined changes; JS engines (Motion, React Spring) are required for dynamic values, springs, and gestures. Pick the simplest tool that supports the interaction.
 
 ## Calibration
@@ -91,4 +91,4 @@ Don't ship an animation in the same sitting you wrote it; come back with fresh e
 
 ## Related
 
-`ui-engineering` (hit areas, layout shift, rendering/list/loading performance), `ui-interaction` (touch, a11y), `ui-design` (surfaces, color), `ui-review` (full UI review).
+`ui-build` (hit areas, layout shift, rendering/list/loading performance, touch, a11y), `ui-design` (surfaces, color), `review` (full UI review).

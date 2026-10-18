@@ -1,8 +1,8 @@
 # Lane A — Accessibility
 
-The lane that excludes people when it's wrong. Fix these first. For anything deeper than the fix shown here, the owning skills are `ui-interaction` (interaction) and `ui-design` (contrast).
+The lane that excludes people when it's wrong. Fix these first. For anything deeper than the fix shown here, the owning skills are `ui-build` (interaction) and `ui-design` (contrast).
 
-Each check has a **Hunt for** line (what to grep or read) and a fix. Severity is the default; Phase 3 of the skill may adjust it with context.
+Each check has a **Hunt for** line (what to grep or read) and a fix. Severity is the default; Phase 3 of [ui-launch-sweep.md](ui-launch-sweep.md) may adjust it with context.
 
 ## A1. Icon buttons have a name — BLOCKER
 
@@ -73,7 +73,7 @@ When a dialog opens, focus moves into it (the first interactive element, or the 
 
 **Hunt for:** hand-rolled modals (`position: fixed` overlays toggled by `useState`) that don't use a dialog primitive; overlays with no `keydown` handler for Escape.
 
-Use a primitive that does this (Base UI, Radix, the native `<dialog>` with `showModal()`). If the modal is hand-rolled, that is the finding. Swapping in the project's existing primitive is a fix; building a focus trap from scratch is bigger than a ship check, so it goes on the human list with `ui-interaction` named.
+Use a primitive that does this (Base UI, Radix, the native `<dialog>` with `showModal()`). If the modal is hand-rolled, that is the finding. Swapping in the project's existing primitive is a fix; building a focus trap from scratch is bigger than a ship check, so it goes on the human list with `ui-build` named.
 
 ## A6. Hidden things are out of the tab order — BLOCKER
 

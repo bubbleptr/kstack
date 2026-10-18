@@ -1,11 +1,12 @@
 ---
 name: prototype
-description: "Explore an interface direction by building several genuinely different versions of one piece of UI behind a live picker, instead of one hardcoded guess, then record the decision and delete the prototype. Use when someone asks for a few options, variations, versions, or directions for a component or flow; says they aren't sure which approach to take (\"not sure if\", \"which feels better\", \"try a few\", \"show me some\"); wants two ideas compared side by side with real product data; wants a throwaway /proto route, playground, or sandbox; or wants the numbers behind an interaction (duration, easing, spring, blur) put on live sliders or a control panel with slow-motion replay. Not for a decision already made: then build one thing."
+description: Build several genuinely different versions of a UI piece behind a live picker, flip through them, and promote the winner.
+disable-model-invocation: true
 ---
 
 # Prototype
 
-Take one described piece of UI, build several genuinely different versions, put them behind a live picker so the user can flip between them at full size, write down what they picked and rejected, then delete the prototype. This is the exploration phase: a rough description and a decision nobody has made. If the user has already decided, build one thing; a picker holding three answers to a settled question wastes everyone's time. Reviewing existing UI is `ui-review`; polishing a finished component is `ui-engineering`.
+Take one described piece of UI, build several genuinely different versions, put them behind a live picker so the user can flip between them at full size, write down what they picked and rejected, then delete the prototype. This is the exploration phase: a rough description and a decision nobody has made. If the user has already decided, build one thing; a picker holding three answers to a settled question wastes everyone's time. Reviewing existing UI is `review`; polishing a finished component is `ui-build`.
 
 ## Posture
 
@@ -44,11 +45,11 @@ Load the skills the brief needs **now**, before variant code; retrofitting craft
 | --- | --- |
 | Text as the design (headlines, editorial, docs, data tables, a type scale); palette, accent, theme, dark mode, contrast; cards, modals, dropdowns, elevation, borders, glass, anything that stacks; a hero, pricing table, landing page, blog, or changelog | `ui-design` |
 | Motion: entrances, exits, gestures, drag, press and hover feedback | `ui-motion` |
-| Inputs, buttons, validation, signup, checkout, settings | `ui-interaction` |
-| Long lists, heavy media, anything that could feel slow | `ui-engineering` |
+| Inputs, buttons, validation, signup, checkout, settings | `ui-build` |
+| Long lists, heavy media, anything that could feel slow | `ui-build` |
 | The API of the component being promoted (Phase 7 only) | `component-api` |
 
-**Every run, no exceptions:** `ui-design` before building (hierarchy, spacing, restraint decide whether any of it reads as designed), then `ui-engineering` (polish) and `ui-interaction` (touch and accessibility) before the user sees the picker. Invoke each skill by name; if one isn't installed, say so and proceed rather than inventing its rules. The loadout applies to every variant equally, or the comparison is rigged.
+**Every run, no exceptions:** `ui-design` before building (hierarchy, spacing, restraint decide whether any of it reads as designed), then `ui-build` (polish, touch and accessibility) before the user sees the picker. Invoke each skill by name; if one isn't installed, say so and proceed rather than inventing its rules. The loadout applies to every variant equally, or the comparison is rigged.
 
 **Done when** you can name each loaded skill and the dimension it owns in this run, and no variant was written from memory of a rule you could have looked up.
 
@@ -77,7 +78,7 @@ Load [references/picker.md](references/picker.md) now and build exactly that. Re
 
 ### Phase 6: Verify and hand off
 
-Run the harness and flip through every variant yourself: each renders, every interaction responds, the console is clean. Check each against the `ui-review` flag-on-sight list (`transition: all`, unlabeled icon buttons, sub-16px inputs, animating layout properties, missing reduced-motion): exactly the mistakes a fast prototype ships. Screenshot each variant if browser tooling is available. Then present the set and **stop; the choice belongs to the user**:
+Run the harness and flip through every variant yourself: each renders, every interaction responds, the console is clean. Check each against the `review` flag-on-sight list (`transition: all`, unlabeled icon buttons, sub-16px inputs, animating layout properties, missing reduced-motion): exactly the mistakes a fast prototype ships. Screenshot each variant if browser tooling is available. Then present the set and **stop; the choice belongs to the user**:
 
 | # | Variant | Axis | When it's the right choice | Its cost |
 | --- | --- | --- | --- | --- |
