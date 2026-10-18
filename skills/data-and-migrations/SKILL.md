@@ -5,63 +5,47 @@ description: Design persistent data and change it safely — schema and constrai
 
 # Data and Migrations
 
-Data outlives code. A bad function is fixed by the next deploy; a bad row, a lost charge, or a migration that half-ran stays until someone repairs it by hand. Default to Postgres when choosing freely; follow the project's existing database otherwise.
+Data outlives code: a bad row, a lost charge, or a half-run migration stays until someone repairs it by hand. Default to Postgres when choosing freely; follow the project's existing database otherwise.
 
-## 1. Schema encodes invariants
+The standard moves — constraints for invariants, unique keys for idempotency, expand/contract for schema changes — are assumed. This skill holds the choices and traps that are specific to how these systems have actually failed.
 
-- Put invariants in the database where it can hold them: `NOT NULL`, foreign keys, `CHECK`, and unique constraints. A unique constraint is the cheapest correct idempotency mechanism there is.
-- Size columns for the data, and test against the production engine. A 44-character dedup key in a `varchar(10)` rolled back a whole transaction and lost a bonus; the SQLite test fixtures never enforced the length. Use real Postgres in integration tests (testcontainers, PGlite) when production is Postgres.
-- Defaults live in one place. Some ORMs re-issue `ALTER` on every start when a default is declared in a struct tag (GORM booleans); set those in code or in the migration, not both.
-- Soft delete is a domain decision, not a free filter. A `deleted_at IS NULL` added to a billing `UPDATE` let in-flight requests skip charging after the key was deleted. For every query that gains the filter, ask what in-flight work it strands.
+## Schema traps
 
-## 2. Transactions
+- **Test on the production engine.** A 44-character dedup key in a `varchar(10)` rolled back a whole transaction and lost a bonus; the SQLite fixtures never enforced the length. When production is Postgres, integration tests run on Postgres (testcontainers, PGlite).
+- **Soft delete is a domain decision.** A `deleted_at IS NULL` added to a billing `UPDATE` let in-flight requests skip charging after their key was deleted. For every query that gains the filter, ask what in-flight work it strands.
+- **One owner per default.** GORM re-issues `ALTER` on every start for a boolean `default:` tag. Set a default in the migration or in code, not in both.
+- **One tool runs migrations.** When an ORM generates schema (Ent, Drizzle, GORM), it produces the numbered SQL file; the numbered file is what runs in every environment. ORM auto-migrate stays off in shared environments, or is limited to the one node that is documented to run it.
 
-- A transaction contains database work only. Never call an upstream HTTP API, payment provider, or message send inside one: it holds locks for network time, and a rollback cannot un-send.
-- For "reserve, call out, settle" flows, use two transactions:
-  1. tx1: lock rows, write a `PENDING` record and the reservation entries.
-  2. Call the external service, outside any transaction.
-  3. tx2: write back the result, or write a compensating entry.
-  A crash between steps leaves a `PENDING` row a reconciler can finish. That is the point.
-- Lock in a consistent order (e.g. `SELECT … FOR UPDATE` ordered by account id) to avoid deadlocks between concurrent transfers.
-- Persist a result together with the state change it triggers, in the same transaction. Two writes that must agree are one transaction or one row.
-- Side effects after commit (notifications, webhooks, emails) go out after the transaction, each channel retried independently, so one failing channel never blocks or duplicates another.
+## Transactions and side effects
 
-## 3. Money and ledgers
+- A transaction holds database work only. External calls (payment provider, upstream API) happen outside, in a reserve → call → settle shape:
+  1. tx1: lock rows, write a `PENDING` record and the reservation.
+  2. Call out.
+  3. tx2: write back the result, or a compensating entry.
+  A crash between steps leaves a `PENDING` row for a reconciler. That is the point.
+- Post-commit effects (email, push, webhooks) go through a **transactional outbox**: the row is written in the same transaction as the state change, a dispatcher sends after commit, and each channel retries on its own so one failing channel never blocks or duplicates another. An in-app notification that is just a row is state; write it in the transaction directly.
+- Lock in a consistent order (`FOR UPDATE` ordered by account id) so concurrent transfers cannot deadlock.
 
-- Balances are derived from an append-only ledger, or kept in lockstep with it in the same transaction. Ledger and audit rows are never updated or deleted; corrections are new reversing entries. Enforce it with a trigger or permissions, not convention.
-- Store amounts as integers in the smallest unit with the unit in the column or type name. Never mix credits and currency in one column.
-- "No rows" and "zero" are different. Do not publish an unknown balance or empty ledger as `$0`.
+## Money and ledgers
 
-## 4. Idempotency
+- Balances come from an append-only ledger, or are updated in lockstep with it in the same transaction. Ledger and audit tables reject `UPDATE`/`DELETE` with a trigger or permissions; corrections are reversing entries.
+- Integer amounts in the smallest unit, with the unit in the column name (`amount_credits`, `paid_cents`). One column never mixes credits and currency.
+- "No rows" is not zero. An empty ledger that means "not loaded" or "unknown" must not be published as `$0`.
 
-Every operation that can be retried — webhook handlers, job steps, payment callbacks, migrations, backfills — answers two questions: what happens if it runs twice, and what happens if the previous run died halfway?
+## Retries and resumption
 
-- Key retried work with an idempotency key under a unique constraint, and treat a duplicate-key error as "already done".
-- Resumed or leased work carries a lease token; a stale worker cannot commit over a newer one.
-- Cancelling a multi-step operation does not undo steps that already had external effects. Record each completed effect so compensation can run.
+- Resumed or leased work carries a lease token, so a stale worker cannot commit over a newer one.
+- Cancelling a multi-step operation does not undo steps that already had external effects. Record each completed effect so compensation can run idempotently.
 
-## 5. Migrations
+## Migrations and rollout
 
-- Migrations are forward-only, numbered files checked into the repo, applied by one tool. Never edit a migration that has run anywhere shared; some deploys verify checksums and will refuse.
-- Separate schema migrations from data backfills. A backfill runs in bounded batches, is idempotent (safe to restart from the top), and logs progress.
-- Migrations that touch the filesystem or app data directories take the target path as a parameter and run only from the app entry point. A test once ran a data-dir migration against the developer's real home directory.
+- Numbered, forward-only, never edited after running anywhere shared — deploys may verify checksums.
+- Backfills are separate from schema migrations, run in bounded batches, and can restart from the top.
+- Filesystem or data-dir migrations take the target path as a parameter and run only from the app entry point. A test once ran one against the developer's real home directory.
+- **Know which nodes migrate.** When only the primary runs migrations, applying the migration is an explicit deploy step, verified (schema version or table check) before any other node takes traffic. Breaking changes that cannot be split into expand/contract need a declared downtime window.
 
-### Ordering schema and code (expand / contract)
+## Operations
 
-When old and new code run at the same time — rolling or blue-green deploys, multiple nodes, a frontend released separately — every step must be compatible with both:
-
-1. **Expand**: add the new column/table, nullable or with a default. Old code ignores it.
-2. Deploy code that writes both (or writes new, reads with fallback).
-3. Backfill.
-4. Deploy code that reads only the new.
-5. **Contract**: drop the old column in a later release.
-
-Renames and type changes are expand/contract, never a single `ALTER`. A breaking change that cannot be split needs a declared downtime window.
-
-Know which nodes run migrations. When secondary or green nodes skip auto-migration, the schema change must be applied before they take traffic, or they serve requests against a schema they don't know about.
-
-## 6. Operations
-
-- Backups copy, never mirror: `rclone copy`, not `sync`, so a deletion upstream does not delete the history.
-- Deploy configuration in the repo (`deploy/`) is the source of truth. A hot-fix made on a server is committed back the same day.
-- Before changing infrastructure to fix a database symptom (dropping a view, demoting a node), check the driver and client versions; a driver bug once looked like a schema problem.
+- Backups copy, never mirror: `rclone copy`, not `sync`, so an upstream deletion doesn't erase history.
+- `deploy/` in the repo is the source of truth for server config. A hot-fix made on a server is committed back the same day.
+- Before changing infrastructure to fix a database symptom (dropping a view, demoting a node), check driver and client versions. A pg driver bug once looked like a schema problem.

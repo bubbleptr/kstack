@@ -18,17 +18,16 @@ A contract is every fact a caller relies on: field names, units, meanings, error
 
 - Each handler parses the raw request into domain types once, at the boundary, and rejects with a structured error. Inside the application, types are trusted; no re-validation.
 - Map domain results to the wire in the handler. Do not expose ORM rows or internal structs directly; the day the table changes, the API silently changes with it.
-- Name units in the field or the type: `durationMs`, `amountCredits`, `paidCents`. A field called `use_time` was read as milliseconds while holding seconds; `amount` was read as money while holding credits.
+- Name units in the field or the type: `durationMs`, `amountCredits`, `paidCents`. A field called `use_time` was read as milliseconds while holding seconds; `amount` was read as money while holding credits. When a requested field name has no unit, propose the unit-bearing name; the product's wording belongs in the UI label, not the wire.
 
 ## 3. Errors are part of the contract
 
 - Return a stable machine-readable code (`error_code` / `reason` enum) plus a human message. Callers branch on the code, never on message text or on the HTTP status alone. Mapping every 401 to "session expired" hid bad-credential errors from users.
 - Sanitize errors where they leave the backend (or the proxy in front of it). Hiding internals in the frontend does not hide them from anyone calling the API directly.
-- Distinguish "not found", "not allowed", and "not yet known" in the code. Collapsing them forces the client to guess.
 
 ## 4. Auth at the boundary, every time
 
-- Authorization checks run before any side effect: before account selection, upstream forwarding, quota reservation, or billing.
+- Authorization checks run before any side effect: before account selection, upstream forwarding, quota reservation, or billing. Inbound webhooks authenticate by provider signature over the raw body.
 - Long-lived connections re-check authorization per turn/message, not only at connect.
 - Anything that billing or authorization reads from a cache must be in the cache snapshot. When adding a field that affects billing or limits, add it to the snapshot and bump the snapshot version in the same change, otherwise cache hits use the old shape (one such miss billed zero).
 
@@ -37,11 +36,7 @@ A contract is every fact a caller relies on: field names, units, meanings, error
 Decide first who the callers are:
 
 - **Internal only, deployed together** (same monorepo, same release): change the contract, migrate every caller in the same change, delete the old shape. No compatibility layer.
-- **Separately deployed** (frontend and backend released independently, mobile apps, multi-node rollouts): expand, then contract.
-  1. Server accepts old and new (both header names, both field names). Ship.
-  2. Clients move to the new. Ship.
-  3. Remove the old once nothing sends it.
-  A one-shot header rename caused production-wide 401s because the frontend and backend did not ship at the same instant.
+- **Separately deployed** (frontend and backend released independently, mobile apps, multi-node rollouts): expand/contract — the server accepts old and new, clients move, then the old is removed once a metric shows nothing sends it. A one-shot header rename caused production-wide 401s because frontend and backend did not ship at the same instant. For headers, the CORS allow/expose lists and the proxy config in `deploy/` change in the same release as the server.
 - **Public** (open-source CLI, third-party integrators): version it. SemVer for clients, a new endpoint or version for semantic changes.
 
 Changing what an existing field or endpoint **means** is never an in-place edit for separately deployed callers. Add a new field or endpoint and retire the old one.

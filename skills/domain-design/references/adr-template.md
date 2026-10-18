@@ -1,6 +1,6 @@
 # ADR template
 
-File: `docs/adr/NNNN-kebab-slug.md`. Number = highest existing + 1. Write in the project's documentation language (Chinese by default for Kieran's repos).
+File: `docs/adr/NNNN-kebab-slug.md`. Number = highest existing + 1. Write in the project's documentation language (the `AGENTS.md` language rule; Chinese when the repo has none).
 
 ```md
 # ADR-NNNN: <decision as a short statement>
