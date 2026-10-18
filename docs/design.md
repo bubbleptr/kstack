@@ -42,7 +42,7 @@ kstack 不推翻这个判断，而是把它推到底：模型编码能力变强�
 
 附加规则：
 
-- `~/.claude/CLAUDE.md` 里已经常亮的闸门（设计先行、TDD、根因、证据、Trust no stale docs、复杂度自证）**一律不在 skill 里重述**，skill 只放流程和口味。
+- 全局规则（`~/.agents/AGENTS.md` / `~/.claude/CLAUDE.md`）里已经常亮的闸门（设计先行、TDD、根因、证据、Trust no stale docs、复杂度自证）**一律不在 skill 里重述**，skill 只放流程和口味。
 - 每条规则配一句 why；一条规则删掉后行为不变，就删。
 - SKILL.md 正文目标 ≤150 行；超出部分拆进 `references/`。
 - description 用英文写清「做什么 + 何时用 + 触发词」，因为它决定能否被正确加载。

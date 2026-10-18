@@ -49,4 +49,4 @@ Side entries:
 
 ## Not here
 
-Discipline gates (design first, TDD, root cause, evidence) live in `~/.claude/CLAUDE.md` and apply everywhere; no skill restates them.
+Discipline gates (design first, TDD, root cause, evidence) live in the global rules (`~/.agents/AGENTS.md`; `~/.claude/CLAUDE.md` for Claude Code) and apply everywhere; no skill restates them.
