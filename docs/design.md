@@ -60,7 +60,7 @@ kstack 的内容会周期性地从 nmem 提炼：某条经验在 nmem 里反复�
 
 ## 4. 骨架（候选，约 16 个）
 
-> **当前形态（2026-10-18 合并后，共 14 个）**：
+> **当前形态（2026-10-24，共 15 个）**：
 >
 > | 组 | skill |
 > |---|---|
@@ -68,7 +68,7 @@ kstack 的内容会周期性地从 nmem 提炼：某条经验在 nmem 里反复�
 > | 后端 | `backend` |
 > | 前端 | `ui-design`、`ui-motion`、`ui-build`、`component-api`、`prototype` |
 > | 交付 | `ship` |
-> | 跨领域 | `unslop`、`kstack`、`write-skill` |
+> | 跨领域 | `unslop`、`kstack`、`write-skill`、`setup` |
 >
 > 合并关系：
 > - `backend` = domain-design + api-contract + data-and-migrations；
@@ -76,7 +76,7 @@ kstack 的内容会周期性地从 nmem 提炼：某条经验在 nmem 里反复�
 > - `ui-review` 并入 `review`，作为 UI 审查和发布前检查的 references；
 > - `ship` = ship + release。
 >
-> `prototype`、`write-skill`、`kstack` 只能手动调用。
+> `prototype`、`setup`、`write-skill`、`kstack` 只能手动调用。
 >
 > 下面各组是合并前的原始规划，保留作为决策记录。
 
@@ -146,6 +146,14 @@ grill 消耗注意力，根因在顺序：它先抛出一棵开放的决策树�
 
 ### 元
 - **`write-skill`**：kstack 自己的写作规范，也就是第 2 节的入选标准。（emil-writing-skills、writing-for-agents）
+
+### 仓库初始化（Setup）
+
+- **`setup`**：每个仓库手动跑一次，把 GitHub Issues、milestone 和 label 的约定写进 `docs/agents/issue-tracker.md`，在根规则文件里加 `## Agent skills` 指针，并补齐五个 label。只支持 GitHub；不建 milestone、不改已有 label。（matt 的 setup-matt-pocock-skills + PiNomad 的 milestone/backlog 约定）
+  - **为什么收**：Matt 那份 setup 绑定 `triage`、`wayfinder`、`to-tickets`、`to-spec`，这些 skill 都不在 kstack；真正留下来的是 PiNomad 在 Matt 模板上补的 milestone/backlog 约定，它已经在真实项目里用过，也暴露过 roadmap 与 milestone 状态不同步的问题。
+  - **收进来的**：milestone 只给有终点的阶段；无 milestone 即 backlog；`later` 用伞形 issue；spec 写在 issue 正文；PR 用 `Closes #N`；阶段内用 blocked-by 和 sub-issue。
+  - **有意不收**：`needs-info`、`wontfix`（单人开发没有外部报告者，PiNomad 使用 0 次；不做就用 close as not planned）、`wayfinder:*`（wayfinder 已卸载）、Matt 的 `domain.md`（术语和 ADR 归 `backend` 的 `CONTEXT.md`）、非 GitHub tracker（GitLab / 本地 markdown / 其他）、GitHub Projects、triage 的 label 映射表。
+  - **五个 label**：`ready-for-agent`、`ready-for-human`、`needs-triage`、`later`、`tech-debt`。已有 label 只补不删。
 
 ### 有意不收的
 - grill-me、grilling、grill-with-docs、to-spec、to-tickets、implement-spec：由 `design` 和「只记录决策」的原则取代。
@@ -240,6 +248,12 @@ kstack/
   - `release` 并入 `ship`。
 - **调用方式**：`prototype` 和 `write-skill` 改成只能手动调用，不再常驻。
 - **内容保真**：合并只去掉重复内容。backend 的 22 个事故标记逐个核对过；UI 的数值和检查项编号保持不变。
+
+**2026-10-24，setup**
+
+- **内容来源**：已定决策在 nmem「kstack /setup skill：issue label 与 milestone 约定」（2026-10-24），加上 PiNomad 的实际使用：`needs-info` / `wontfix` 使用 0 次，M6/M7 已关但 roadmap 仍写「现在」。
+- **跳过 A/B**：按 `write-skill` 第 4 节，内容几乎全部来自具体决策和事故，不是通用最佳实践，可以跳过 A/B。
+- **局限**：没有在真实仓库上跑 `/setup`（issue #8 明确列为范围外）。验证只覆盖 YAML、行数、引用链接和 `gh` 命令的参数。
 
 ## 7. 待确认
 
