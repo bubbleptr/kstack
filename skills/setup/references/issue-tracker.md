@@ -15,7 +15,7 @@
   `gh api --method POST repos/{owner}/{repo}/issues/<child>/dependencies/blocked_by -F issue_id=<blocker-db-id>`。
   查 database id：`gh api repos/{owner}/{repo}/issues/<blocker> --jq .id`。
 
-`gh` 在仓库目录里会自动推断 repo；不在仓库目录时加 `-R owner/repo`。
+`gh issue`、`gh label` 在仓库目录里会自动推断 repo；不在仓库目录时加 `-R owner/repo`。`gh api` 不支持 `-R`：在路径里写 `repos/owner/repo/...`，或设置 `GH_REPO=owner/repo` 后继续使用 `{owner}/{repo}` 占位符。
 
 ## 计划：milestone 与 backlog
 
@@ -58,4 +58,4 @@ PR 用 `Closes #N` 关闭对应 issue。checklist 类 issue 的部分进度在�
 - 可派给 worker：`gh issue list --state open --label ready-for-agent`
 - 需要本人处理：`gh issue list --state open --label ready-for-human`
 - 待分诊：`gh issue list --state open --label needs-triage`
-- backlog：`gh issue list --state open --json number,title,labels,milestone --jq '.[] | select(.milestone == null) | {number, title, labels: [.labels[].name]}'`
+- backlog：`gh issue list --state open --search 'no:milestone' --json number,title,labels,milestone --jq '.[] | {number, title, labels: [.labels[].name]}'`

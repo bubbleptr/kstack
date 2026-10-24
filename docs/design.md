@@ -152,7 +152,7 @@ grill 消耗注意力，根因在顺序：它先抛出一棵开放的决策树�
 - **`setup`**：每个仓库手动跑一次，把 GitHub Issues、milestone 和 label 的约定写进 `docs/agents/issue-tracker.md`，在根规则文件里加 `## Agent skills` 指针，并补齐五个 label。只支持 GitHub；不建 milestone、不改已有 label。（matt 的 setup-matt-pocock-skills + PiNomad 的 milestone/backlog 约定）
   - **为什么收**：Matt 那份 setup 绑定 `triage`、`wayfinder`、`to-tickets`、`to-spec`，这些 skill 都不在 kstack；真正留下来的是 PiNomad 在 Matt 模板上补的 milestone/backlog 约定，它已经在真实项目里用过，也暴露过 roadmap 与 milestone 状态不同步的问题。
   - **收进来的**：milestone 只给有终点的阶段；无 milestone 即 backlog；`later` 用伞形 issue；spec 写在 issue 正文；PR 用 `Closes #N`；阶段内用 blocked-by 和 sub-issue。
-  - **有意不收**：`needs-info`、`wontfix`（单人开发没有外部报告者，PiNomad 使用 0 次；不做就用 close as not planned）、`wayfinder:*`（wayfinder 已卸载）、Matt 的 `domain.md`（术语和 ADR 归 `backend` 的 `CONTEXT.md`）、非 GitHub tracker（GitLab / 本地 markdown / 其他）、GitHub Projects、triage 的 label 映射表。
+  - **有意不收**：`needs-info`、`wontfix`（单人开发没有外部报告者，PiNomad 使用 0 次；不做就用 close as not planned）、`wayfinder:*`（wayfinder 已卸载）、Matt 的 `domain.md`（不新建；已有文件不动，术语和 ADR 归 `backend` 的 `CONTEXT.md`）、非 GitHub tracker（GitLab / 本地 markdown / 其他）、GitHub Projects、triage 的 label 映射表。
   - **五个 label**：`ready-for-agent`、`ready-for-human`、`needs-triage`、`later`、`tech-debt`。已有 label 只补不删。
 
 ### 有意不收的

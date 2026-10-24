@@ -28,7 +28,7 @@ A repo configured by Matt's `setup-matt-pocock-skills` may have a `## Agent skil
 
 Show the user in one message:
 
-- The rule file to edit and the exact `## Agent skills` block to add or replace. Use `CLAUDE.md` when it exists, otherwise `AGENTS.md`; if neither exists, ask which to create. Never create both.
+- The rule file to edit and the exact `## Agent skills` block to add or replace: a `### Issue tracker` line naming GitHub Issues, `gh`, and `docs/agents/issue-tracker.md`, in the repo's documentation language. Use `CLAUDE.md` when it exists, otherwise `AGENTS.md`; if neither exists, ask which to create. Never create both.
 - The complete `docs/agents/issue-tracker.md` to write, with repo-specific details filled in.
 - The labels to create and the labels already present. Create only the five missing ones; list every other label as left untouched.
 - Any old Matt sections or files to remove or replace, one line each.
