@@ -8,6 +8,10 @@ disable-model-invocation: true
 
 A map of the kstack skills and the order they run in. Read a skill's SKILL.md before stating what it does or recommending a step be skipped; the summaries here are for orientation only.
 
+## Setup (once per repo)
+
+- **`setup`** (manual): write the GitHub issue-tracker conventions, add the `## Agent skills` pointer to the root rule file, and create the five labels. Run before the first issue or milestone; GitHub only.
+
 ## Flow: idea → merged → live
 
 1. **`design`**: a concrete sketch (usage, shapes, one alternative, ≤3 questions) before code. Skip for small, obvious changes.

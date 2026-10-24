@@ -47,6 +47,7 @@ Kieran 的个人 skill 集，面向前后端全栈开发，取代了此前安装
 | skill | 调用方式 | 做什么 | 什么时候用 |
 |---|---|---|---|
 | `unslop` | 自动 | 去掉代码和文案里的 AI 痕迹 | 清理 agent 写的代码，开 PR 前，写面向读者的文字 |
+| `setup` | 手动 | 每个仓库跑一次：写中文 `docs/agents/issue-tracker.md`，在根规则文件加 `## Agent skills` 指针，补齐 5 个 label；只支持 GitHub，已有 label 只补不删 | 新仓库第一次用 GitHub Issues、milestone 或 label 规划前 |
 | `kstack` | 手动 | 路由：主流程、各 skill 索引、重叠时选哪个 | 不确定该用哪个 skill 时 |
 | `write-skill` | 手动 | kstack 的写作规范：判断该不该存在、结构、description 写法、A/B 验证、落地步骤 | 新增或修改 kstack 的 skill |
 
