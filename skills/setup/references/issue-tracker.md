@@ -19,9 +19,9 @@
 
 ## 计划：milestone 与 backlog
 
-- **milestone 只给有终点的阶段**，比如 `M3 在哪都能连`、`iOS 原生替换`。milestone 描述写阶段目标或验收标准，不写任务清单。
+- **milestone 只给有终点的阶段**，比如 `M1`、`v1.0`。milestone 描述写阶段目标或验收标准，不写任务清单。
 - 建 milestone：`gh api --method POST repos/{owner}/{repo}/milestones -f title="<title>" -f description="<goal>"`。
-- 阶段做完就关闭 milestone（`gh api --method PATCH repos/{owner}/{repo}/milestones/<number> -f state=closed`），同时改 `docs/roadmap.md` 里的「当前阶段」。PiNomad 出现过 M6/M7 已关但 roadmap 仍写「现在」。
+- 阶段做完就关闭 milestone（`gh api --method PATCH repos/{owner}/{repo}/milestones/<number> -f state=closed`），同时改 `docs/roadmap.md` 里的「当前阶段」。
 - **没有 milestone 的 open issue 就是 backlog**，这是正常状态；不要为了装 backlog 建一个「Backlog」milestone。
 - backlog 用两个 label 分：
   - `later`：等明确需求再做。相关想法合进一个伞形 issue，正文用 checklist 列候选，不拆成一堆小 issue。
@@ -32,18 +32,18 @@
 
 Issue 正文写：做什么、约束、已知坑、相关 ADR。计划变了就改正文；完成细节写进 PR，不回写 issue 或 roadmap。
 
-原因是三者必须看同一份：planner 按 issue 做意图层 review，dureview 不读 spec，worker 的简报只引用 `#N` 而不复制正文。
+原因是 planner 按 issue 做意图层 review（dureview 不读 spec，只有这一层对照 spec），worker 的简报只引用 `#N` 而不复制正文，所以 worker 照的和 planner 审的是同一份。
 
 PR 用 `Closes #N` 关闭对应 issue。checklist 类 issue 的部分进度在正文里勾选，不要提前关闭。
 
 ## Label
 
-本仓库用下面五个 label。GitHub 默认 label 和历史 label 保留，不删除；新 issue 只用这五个。
+这五个 label 表示状态和 backlog 分类；GitHub 默认 label 和历史 label 保留，不删除，可以照常用。
 
 | label | 什么时候用 |
 |---|---|
 | `ready-for-agent` | spec 写全了，planner 可以直接派给 worker |
-| `ready-for-human` | 需要我本人动手或拍板：真机验证、账号操作、设计取舍 |
+| `ready-for-human` | 需要仓库主人动手或拍板：真机验证、账号操作、设计取舍 |
 | `needs-triage` | 先记下来，还没想清楚 |
 | `later` | 等明确需求再做；相关想法合进伞形 issue |
 | `tech-debt` | 已知技术债 |
