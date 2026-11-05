@@ -35,6 +35,14 @@ Write in the project's documentation language. Use [references/pr-body.md](refer
 - Merge a stack with `gh stack merge --merge --yes` from the top branch: it is atomic, and plain `gh pr merge` refuses stack members.
 - Never `--delete-branch` on a lower PR of a stack: GitHub closes every PR based on it. To recover: push the merged PR's last commit (`headRefOid`) back to the deleted branch, `gh pr reopen` the closed PR, then `gh pr edit --base main`.
 
+## Waiting on CI
+
+- Wait in the background with `gh pr checks <N> --watch --fail-fast --interval 30` and let the exit notify you. Don't put `sleep` in front of it, and don't poll the output file. Without `--fail-fast`, `--watch` waits for the slowest job, so a web failure can sit unseen behind a 13-minute iOS job.
+- Read the result by bucket, not by exit code: `gh pr checks <N> --json name,bucket --jq '.[] | select(.bucket == "fail")'`. `cancel` is a run superseded by a newer push (it shows as a red `matrix.name` with no time), and `skipping` is a path filter. Neither is a failure.
+- "no checks reported" means nothing ran on that head. Find out why with `gh run list --commit <sha>` rather than guessing.
+- Don't end a background command with `; echo` or `|| true`: the task then reports exit 0 for a failed run. Keep the real exit code.
+- While a run is still going, `gh run view --log-failed` prints nothing. Fetch the failed job's log directly: `gh api repos/<owner>/<repo>/actions/jobs/<job-id>/logs`, then strip colour codes.
+
 ## After merge
 
 - Squash-merged branches always look "not fully merged" to git. Before force-deleting, check with `git cherry -v main <branch>` (lines starting with `-` are already on main) or a diff against main.
