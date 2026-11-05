@@ -38,7 +38,7 @@ Write in the project's documentation language. Use [references/pr-body.md](refer
 ## Waiting on CI
 
 - Wait in the background with `gh pr checks <N> --watch --fail-fast --interval 30` and let the exit notify you. Don't put `sleep` in front of it, and don't poll the output file. Without `--fail-fast`, `--watch` waits for the slowest job, so a web failure can sit unseen behind a 13-minute iOS job.
-- Read the result by bucket, not by exit code: `gh pr checks <N> --json name,bucket --jq '.[] | select(.bucket == "fail")'`. `cancel` is a run superseded by a newer push (it shows as a red `matrix.name` with no time), and `skipping` is a path filter. Neither is a failure.
+- Read the result by bucket, not by exit code: `gh pr checks <N> --json name,bucket --jq '.[] | select(.bucket == "fail")'`. `cancel` and `skipping` are not failures, but they are not passes either. A run can be cancelled by a newer push, by hand, or because no runner was allocated, and a job can be skipped by a path filter or by a failed dependency. Check with `gh run list --commit <sha>`: if another run on the same head passed, ignore it; if the head's only run was cancelled or skipped, nothing has verified that head.
 - "no checks reported" means nothing ran on that head. Find out why with `gh run list --commit <sha>` rather than guessing.
 - Don't end a background command with `; echo` or `|| true`: the task then reports exit 0 for a failed run. Keep the real exit code.
 - While a run is still going, `gh run view --log-failed` prints nothing. Fetch the failed job's log directly: `gh api repos/<owner>/<repo>/actions/jobs/<job-id>/logs`, then strip colour codes.
