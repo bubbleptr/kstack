@@ -14,7 +14,7 @@ A map of the kstack skills and the order they run in. Read a skill's SKILL.md be
 
 ## Flow: idea → merged → live
 
-1. **`design`**: a concrete sketch (usage, shapes, one alternative, ≤3 questions) before code. Skip for small, obvious changes.
+1. **`design`**: a concrete sketch (usage, shapes, one alternative, ≤3 questions) before code; large or layout work goes on a commentable Doc or canvas. Skip for small, obvious changes.
 2. Build, pulling in the domain skills below as the work touches them.
 3. **`review`**: standards + ADR/intent axes, plus the UI pass when the interface changed. Also triages dureview findings and runs the pre-launch UI sweep.
 4. **`ship`**: commits, PR body, stacks, merge and cleanup, then release scope, tags, artifacts, deploy, and verifying what is live.
@@ -45,7 +45,7 @@ Side entries:
 
 | Torn between | Ask | Then |
 |---|---|---|
-| `design` / `prototype` | Can the decision be made by reading a sketch, or does it need to be seen or run? | Read → design. Seen → prototype. |
+| `design` / `prototype` | Can the decision be made from a sketch or static mockups, or does it need real materials and interaction? | Sketch or mockups → design (Doc or canvas). Real → prototype. |
 | `design` / `backend` | Is the question how to build this feature, or where knowledge and state live? | Feature → design (it pulls in backend for ADRs). Placement → backend. |
 | `ui-design` / `ui-build` | Is it the wrong look, or right but unfinished, janky, or awkward to use? | Look → ui-design. Unfinished or hard to use → ui-build. |
 | `ui-motion` / `ui-build` | Does the motion look wrong, or do frames drop and things load slowly? | Looks wrong → ui-motion. Frames, lists, loading → ui-build. |

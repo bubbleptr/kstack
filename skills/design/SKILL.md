@@ -17,7 +17,7 @@ Read the code, the Accepted ADRs, `CONTEXT.md`, and nmem before asking anything.
 
 ## 2. The sketch
 
-Write it in the reply, in this order:
+Write it in this order (where it goes: section 3):
 
 1. **Usage**: what the caller writes — the call sites, the CLI invocation, the screen the user sees. The shapes below are derived from this.
 2. **Shape**: data structures and types first, then signatures and module placement. Name the load-bearing decisions.
@@ -30,14 +30,24 @@ Then stop for the user when the work is large or an open question is irreversibl
 
 For layout or placement work, the sketch shows where it goes, what form it takes, and the trade-off — options side by side if needed — before any UI code. Building from a one-line description led to a full redo.
 
-## 3. Hold the line
+## 3. Where the sketch goes
+
+Small work: the reply. Large or layout work, when the `Artifact` tool is available: a private page the user comments on, with the link and one line in the reply. A wall of Markdown is a poor decision surface; a page whose first screen holds the decision is read and settled in minutes. Build each page by its type's own instructions; this section only says what goes on it.
+
+- **Doc** (`quickstart` intent `document`): the sketch, in the order above. The first screen is the decision: the question, the options, the recommendation, what is deferred. Each open question carries its recommended answer, so a one-line comment settles it.
+- **Canvas** (`quickstart` intent `design`): layout options as artboards side by side, the recommended one marked in its title, each trade-off in a sticky beside it. It picks a direction from mockups; real fonts, tokens and interaction are `prototype`.
+- **Mock data only** on either page: fixtures or story data, never credentials, secrets or real user data. A private page is one Share click from public.
+- **Reading answers**: when the user says they have commented, read every thread on both pages in one pass. Name the canvas threads you could not answer (not sent to Claude); Doc threads have no such gate.
+- **After agreement**: rename the decision section to "Decided" with the date, apply what the comments asked, and stop maintaining the page. The repo stays the source of truth (section 5); the page is the record of how it was decided.
+
+## 4. Hold the line
 
 - When the official way to do something does not exist, say so and stop. A workaround that imitates the missing feature (a cron job standing in for a platform's automation) is worse than not doing it.
 - A decision the user declined stays declined. Later fixes do not reintroduce it.
 - When the reviewer or critic you were told to use is unavailable, wait for it; do not substitute another.
 
-## 4. After agreement
+## 5. After agreement
 
-- Record the decision as an ADR only if it qualifies (hard to reverse, surprising, real trade-off); the format lives in `backend`. When implementation forces a change to an accepted decision, add a superseding ADR in the same PR and flip the old one's status to `Superseded by ADR-NNNN`; never rewrite the old decision.
+- Record the decision as an ADR only if it qualifies (hard to reverse, surprising, real trade-off), citing the page link when one was used; the format lives in `backend`. When implementation forces a change to an accepted decision, add a superseding ADR in the same PR and flip the old one's status to `Superseded by ADR-NNNN`; never rewrite the old decision.
 - No spec file. The code and tests become the description of the feature; the sketch's job ends at agreement.
 - Work too large for one session splits into briefs per `handoff`, one per reviewable PR, stacked when they depend on each other.
