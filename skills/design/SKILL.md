@@ -17,14 +17,14 @@ Read the code, the Accepted ADRs, `CONTEXT.md`, and nmem before asking anything.
 
 ## 2. The sketch
 
-Write it in this order (where it goes: section 3):
+Write it in this order; a Doc splits it across two tabs (section 3):
 
 1. **Usage**: what the caller writes — the call sites, the CLI invocation, the screen the user sees. The shapes below are derived from this.
 2. **Shape**: data structures and types first, then signatures and module placement. Name the load-bearing decisions.
 3. **Alternative**: one structurally different design (not a variant of the same shape), with one line on why it lost.
 4. **Decided**: reversible choices you made, each with a one-line reason. Do not ask about these.
 5. **Deferred**: what cannot be decided before implementation, marked as such rather than forced.
-6. **Open questions**: at most three, only for irreversible choices or product direction, asked in plain text after the sketch. Prefer one question with a recommended answer over three open ones.
+6. **Open questions**: at most three, only for irreversible choices or product direction, asked in plain text after the sketch (on a Doc, as the round). Prefer one question with a recommended answer over three open ones.
 
 Then stop for the user when the work is large or an open question is irreversible; otherwise proceed on the sketch and let the user course-correct.
 
@@ -32,13 +32,27 @@ For layout or placement work, the sketch shows where it goes, what form it takes
 
 ## 3. Where the sketch goes
 
-Small work: the reply. Large or layout work, when the `Artifact` tool is available: a private page the user comments on, with the link and one line in the reply. A wall of Markdown is a poor decision surface; a page whose first screen holds the decision is read and settled in minutes. Build each page by its type's own instructions; this section only says what goes on it.
+Small work: the reply. Large or layout work, when the `Artifact` tool is available: a private page the user comments on, with the link and one line in the reply. Build each page by its type's own instructions; this section only says what goes on it.
 
-- **Doc** (`quickstart` intent `document`): the sketch, in the order above. The first screen is the decision: the question, the options, the recommendation, what is deferred. Each open question carries its recommended answer, so a one-line comment settles it.
-- **Canvas** (`quickstart` intent `design`): layout options as artboards side by side, the recommended one marked in its title, each trade-off in a sticky beside it. It picks a direction from mockups; real fonts, tokens and interaction are `prototype`.
-- **Mock data only** on either page: fixtures or story data, never credentials, secrets or real user data. A private page is one Share click from public.
+**Doc** (`quickstart` intent `document`). The Doc is a decision surface, not the design: a page that carries the whole sketch reads like a spec, and the user spends attention on parts that need no answer.
+
+- **First tab, the decision**, top to bottom:
+  1. One line on how to answer: comment on a question to change it; anything left untouched counts as agreed.
+  2. What is being built and why, at most three sentences, your guesses marked as yours.
+  3. This round's questions. Each is a heading that is the question itself, then your recommendation, then one line of why, so a one-line comment ("agree", "B") settles it.
+  4. **Settled**: each decision on one line, marked by who made it: the user, accepted recommendation, or your call. Section 2's Decided items start here as your calls.
+  5. **Deferred**: one line each.
+- **Second tab, the sketch**: usage, shape and the alternative from section 2, drawn for the current answers. The first tab never repeats them. Redraw it whenever an answer changes the design.
+- **Rounds**: one round by default. A second exists only for a fork: when more than three questions qualify and one decides whether others apply at all, ask it first, with any independent questions up to three in total, and name the held-back questions in one line under it so the user sees what their answer opens. When the user answers, move each answer into Settled as one line, delete the questions it made moot, add any it raised, and reply with one line on what changed and how many questions remain. The page gets shorter each round, not longer.
+- **After agreement** (no questions left), the first tab becomes the dated summary: what gets built, in one sentence; what the user will see, as numbered steps; a decisions table (decision, choice, who made it); **Check these**, your calls worth a second look; Deferred, one line each; and the size in PRs. This summary is for the user; the builder works from the code and briefs (section 5).
+
+**Canvas** (`quickstart` intent `design`): layout options as artboards side by side, the recommended one marked in its title, each trade-off in a sticky beside it. It picks a direction from mockups; real fonts, tokens and interaction are `prototype`. A Doc question settled on the canvas names the chosen artboard in Settled.
+
+Both pages:
+
+- **Mock data only**: fixtures or story data, never credentials, secrets or real user data. A private page is one Share click from public.
 - **Reading answers**: when the user says they have commented, read every thread on both pages in one pass. Name the canvas threads you could not answer (not sent to Claude); Doc threads have no such gate.
-- **After agreement**: rename the decision section to "Decided" with the date, apply what the comments asked, and stop maintaining the page. The repo stays the source of truth (section 5); the page is the record of how it was decided.
+- **After agreement**: apply what the comments asked, write the Doc summary, and stop maintaining the pages. The repo stays the source of truth (section 5); the pages are the record of how it was decided.
 
 ## 4. Hold the line
 
