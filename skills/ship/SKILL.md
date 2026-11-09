@@ -1,6 +1,6 @@
 ---
 name: ship
-description: Get a change from a working branch to users — commits, PR body, stacked PRs with gh stack, merging and cleanup, then release scope, versions, tags and notes, app/npm artifacts, server deploys (blue-green, atomic release dirs, proxy config), and verifying what is live. Use when committing, opening or describing a PR, splitting work into a stack, merging, cleaning up branches, cutting a release, tagging, publishing a package or app build, deploying, switching traffic, rolling back, or checking what is running in production.
+description: Get a change from a working branch to users — commits, PR body, stacked PRs with gh stack, merging and cleanup, then release scope, versions, tags and notes, app/npm artifacts, server deploys (blue-green, atomic release dirs, proxy config), and verifying what is live. Use when committing, opening or describing a PR, pushing to an open PR, waiting on CI or `gh pr checks`, reading a failed run, splitting work into a stack, merging, cleaning up branches, cutting a release, tagging, publishing a package or app build, deploying, switching traffic, rolling back, or checking what is running in production.
 ---
 
 # Ship
@@ -37,10 +37,12 @@ Write in the project's documentation language. Use [references/pr-body.md](refer
 
 ## Waiting on CI
 
-- Wait in the background with `gh pr checks <N> --watch --fail-fast --interval 30` and let the exit notify you. Don't put `sleep` in front of it, and don't poll the output file. Without `--fail-fast`, `--watch` waits for the slowest job, so a web failure can sit unseen behind a 13-minute iOS job.
+- Right after a push, confirm the run exists with `gh run list --commit <sha>` before watching. If the list is empty, check again a couple of times rather than sleeping a fixed number of seconds first.
+- Wait with `gh pr checks <N> --watch --fail-fast --interval 30`, started once, in the background, then end the turn and let the exit notify you. Without `--fail-fast`, `--watch` waits for the slowest job, so a web failure can sit unseen behind a 13-minute iOS job.
+- Nothing before or after the watch: no `sleep` in front, no `| tail`, `| grep` or `| head`, no `; echo` or `|| true`, no second foreground copy under `timeout`, and don't poll the output file. A pipe reports the last command's exit code, and `head` kills the watch once it has its lines, so a run still in progress comes back as exit 0.
+- A review bot's check (dureview with a P0/P1) is a failure, so `--fail-fast` stops before CI finishes. When the repo's required checks cover every workflow that runs on PRs, add `--required`; without required checks, `--required` has nothing to wait on. Otherwise watch the CI run itself: `gh run watch <run-id> --exit-status`, with the id from `gh run list --commit <sha>`.
 - Read the result by bucket, not by exit code: `gh pr checks <N> --json name,bucket --jq '.[] | select(.bucket == "fail")'`. `cancel` and `skipping` are not failures, but they are not passes either. A run can be cancelled by a newer push, by hand, or because no runner was allocated, and a job can be skipped by a path filter or by a failed dependency. Check with `gh run list --commit <sha>`: if another run on the same head passed, ignore it; if the head's only run was cancelled or skipped, nothing has verified that head.
 - "no checks reported" means nothing ran on that head. Find out why with `gh run list --commit <sha>` rather than guessing.
-- Don't end a background command with `; echo` or `|| true`: the task then reports exit 0 for a failed run. Keep the real exit code.
 - While a run is still going, `gh run view --log-failed` prints nothing. Fetch the failed job's log directly: `gh api repos/<owner>/<repo>/actions/jobs/<job-id>/logs`, then strip colour codes.
 
 ## After merge
