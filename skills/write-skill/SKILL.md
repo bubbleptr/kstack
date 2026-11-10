@@ -49,7 +49,7 @@ Skills built almost entirely from concrete incidents may skip the A/B; say so in
 
 ## 5. Land it
 
-- Feature branch, ready PR, dureview once, fix-or-ignore each finding, merge when told (per the global rules and `ship`).
+- Feature branch, ready PR, dureview once, fix-or-ignore each finding, merge when told (per the global rules and `pr`).
 - After merge, symlink the new skill into `~/.agents/skills` on every machine, plus `~/.claude/skills` on machines with Claude Code. An installed skill with the same name blocks the link.
 - Removing an upstream skill changes the global install, so it needs the user's explicit go-ahead for that removal; approval to merge is not approval to uninstall. For a teacher's skill set (emil), wait until its whole migration is done. Once approved: back up, remove (`npx skills remove -g -y <name>`; untracked copies by hand), and clear dangling links under `~/.pi/agent/skills` and `~/.grok/skills`.
 - Update the `kstack` router when a skill is added, renamed, or removed.

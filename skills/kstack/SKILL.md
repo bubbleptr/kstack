@@ -17,7 +17,8 @@ A map of the kstack skills and the order they run in. Read a skill's SKILL.md be
 1. **`design`**: a concrete sketch (usage, shapes, one alternative, ≤3 questions) before code; large or layout work goes on a commentable Doc or canvas. Skip for small, obvious changes.
 2. Build, pulling in the domain skills below as the work touches them.
 3. **`review`**: standards + ADR/intent axes, plus the UI pass when the interface changed. Also triages dureview findings and runs the pre-launch UI sweep.
-4. **`ship`**: commits, PR body, stacks, merge and cleanup, then release scope, tags, artifacts, deploy, and verifying what is live.
+4. **`pr`**: commits, checks before opening, PR body, stacks, waiting on CI, merge and cleanup.
+5. **`ship`**: release scope, versions and tags, artifacts, deploy, and verifying what is live.
 
 Side entries:
 
@@ -49,7 +50,8 @@ Side entries:
 | `design` / `backend` | Is the question how to build this feature, or where knowledge and state live? | Feature → design (it pulls in backend for ADRs). Placement → backend. |
 | `ui-design` / `ui-build` | Is it the wrong look, or right but unfinished, janky, or awkward to use? | Look → ui-design. Unfinished or hard to use → ui-build. |
 | `ui-motion` / `ui-build` | Does the motion look wrong, or do frames drop and things load slowly? | Looks wrong → ui-motion. Frames, lists, loading → ui-build. |
-| `review` / `ship` | Judging the change, or getting it merged and live? | Judging → review. Merging, releasing → ship. |
+| `review` / `pr` | Judging the change, or getting it merged? | Judging → review. Committing, opening, waiting on CI, merging → pr. |
+| `pr` / `ship` | Is the change on main yet? | Not yet → pr. On main, going to users → ship. |
 
 ## Not here
 

@@ -60,21 +60,21 @@ kstack 的内容会周期性地从 nmem 提炼：某条经验在 nmem 里反复�
 
 ## 4. 骨架（候选，约 16 个）
 
-> **当前形态（2026-10-24，共 15 个）**：
+> **当前形态（2026-11-10，共 16 个）**：
 >
 > | 组 | skill |
 > |---|---|
 > | 流程 | `design`、`diagnose`、`review`、`handoff` |
 > | 后端 | `backend` |
 > | 前端 | `ui-design`、`ui-motion`、`ui-build`、`component-api`、`prototype` |
-> | 交付 | `ship` |
+> | 交付 | `pr`、`ship` |
 > | 跨领域 | `unslop`、`kstack`、`write-skill`、`setup` |
 >
 > 合并关系：
 > - `backend` = domain-design + api-contract + data-and-migrations；
 > - `ui-build` = ui-engineering + ui-interaction；
 > - `ui-review` 并入 `review`，作为 UI 审查和发布前检查的 references；
-> - `ship` = ship + release。
+> - `ship` 曾经是 ship + release（2026-10-18 合并），2026-11-10 又拆成 `pr` 和 `ship`，见验证记录。
 >
 > `prototype`、`setup`、`write-skill`、`kstack` 只能手动调用。
 >
@@ -285,6 +285,17 @@ kstack/
   - 只有新版写了“不评论就算同意”，并注明每条是谁定的。旧版在分叉场景里也自己拆成两个 tab，所以拆 tab 这一条本身不是新版独有的效果。
   - 按候选版的反馈补了五处：挂起的问题要列出来、草图随答案重画、谁定的统一成三类、答案引出的新问题进下一轮、摘要里保留 Deferred。
 - **局限**：两个场景、一个模型、每版各一次，场景是我写的；都只输出 markdown，没有真的发布页面和读评论。
+
+**2026-11-10，`ship` 拆成 `pr` 和 `ship`**
+
+- **起因**：PiNomad 上连开两个 PR（#690、#692），两次都没加载 `ship`，也没在后台等 CI；CI 通过后是你来提醒的。`ship` 的名字和 description 后半段全是发版和部署，日常开 PR 时不容易触发。
+- **和 2026-10-18 的关系**：那次把 `release` 并入 `ship` 是为了减少数量、消除模糊的触发边界。这次拆回两个，边界是"改动上 main 了没有"：没上是 `pr`，上了是 `ship`。数量从 15 回到 16。
+- **改了什么**：
+  - `pr`：提交、开 PR 前的检查、PR 正文（`references/pr-body.md` 跟着搬过来）、堆叠 PR、等 CI、合并后清理。
+  - `ship`：只留发版范围、版本和 tag、产物、服务器、部署后验证，小节标题去掉了"Release N"编号。
+  - `pr` 新增两条，都来自这次的事故：加了测试之后要跑 typecheck（vitest 不查类型，#690 首次 CI 因缺一个 type import 失败）；宿主自带的 PR 监视（Claude 桌面端的 Auto-fix）只在失败、冲突、评论时叫醒，通过时不出声，所以每次 push 后照样要起后台等待。
+- **跳过 A/B**：内容是原样搬移，新增的两条来自具体事故，按 `write-skill` 第 4 节可以跳过。
+- **局限**：拆分只是让它更容易触发，没有验证触发率。这次的直接原因是 agent 看到了全局规则里的等待命令却没执行，所以全局规则里那一句也要改（指向 `pr`，并写明有 Auto-fix 时也要跑）；那份文件在 harness 仓库，不在这个 PR 里。
 
 ## 7. 待确认
 
