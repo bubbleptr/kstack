@@ -27,7 +27,7 @@ Everything from main to users. Getting a change onto main (commits, PR, CI, merg
 - Verify the artifact as a user downloads it, not the local build: version, embedded permission descriptions (`Info.plist`), signature and notarization (`codesign`, `spctl`, `stapler`), first launch. A build with an entitlement but no permission description crashed on launch.
 - A packaging step that degrades fails the release; it does not warn. Nothing in CI depends on a GUI (Finder scripting).
 - Apple notarization failing with 403 "agreement missing" means the account holder must accept the latest agreement; it is not a code problem.
-- npm: a brand-new package can resolve to a placeholder version for a minute or two; verify with `--prefer-online`. Publishing several packages together must be safe to re-run after a partial failure.
+- npm: check a publish against the registry, not the local CLI: `curl -s https://registry.npmjs.org/<pkg> | jq -r '."dist-tags".latest'`. `npm view`, even with `--prefer-online`, has shown the old version for minutes after the registry had the new one. A brand-new package can also resolve to a placeholder version for a minute or two. Publishing several packages together must be safe to re-run after a partial failure.
 
 ## Servers
 
