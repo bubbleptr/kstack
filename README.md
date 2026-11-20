@@ -54,11 +54,11 @@ Kieran 的个人 skill 集，面向前后端全栈开发，取代了此前安装
 
 ## 安装
 
-把每个 skill 软链接到两个目录：`~/.agents/skills` 供 Codex、Pi、Grok 读取，`~/.claude/skills` 供 Claude Code 读取（只在装了 Claude Code 的机器上需要，没装的机器把命令里的 `~/.claude/skills` 删掉）。仓库克隆到哪个目录都行。
+把每个 skill 软链接到三个目录：`~/.agents/skills` 供 Codex、Pi、Grok 读取，`~/.claude/skills` 供 Claude Code 读取，`~/.gemini/config/skills` 供 Antigravity 读取。后两个只在装了对应工具的机器上需要，没装的机器把命令里对应的目录删掉。仓库克隆到哪个目录都行。
 
 ```bash
-mkdir -p ~/.agents/skills ~/.claude/skills
-for d in skills/*/; do n=$(basename "$d"); for t in ~/.agents/skills ~/.claude/skills; do ln -sfn "$PWD/$d" "$t/$n"; done; done
+mkdir -p ~/.agents/skills ~/.claude/skills ~/.gemini/config/skills
+for d in skills/*/; do n=$(basename "$d"); for t in ~/.agents/skills ~/.claude/skills ~/.gemini/config/skills; do ln -sfn "$PWD/$d" "$t/$n"; done; done
 ```
 
 软链接指向这个仓库，所以拉取更新后立即生效。新增、改名或删除 skill 时，要同步更新 `kstack` 路由和本 README。
